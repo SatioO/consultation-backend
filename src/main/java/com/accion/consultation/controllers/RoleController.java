@@ -1,6 +1,5 @@
 package com.accion.consultation.controllers;
 
-import com.accion.consultation.entities.RoleEntity;
 import com.accion.consultation.exceptions.RoleNotFoundException;
 import com.accion.consultation.models.dto.role.CreateRoleRequestDTO;
 import com.accion.consultation.models.dto.role.RoleDTO;
@@ -12,8 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 @RestController
 @RequestMapping(path = "/api/v1/roles")
@@ -25,22 +22,22 @@ public class RoleController {
     }
 
     @GetMapping
-    public ResponseEntity<List<RoleEntity>> getRoles() {
+    public ResponseEntity<List<RoleDTO>> getRoles() {
         return ResponseEntity.ok().body(this.roleService.getRoles());
     }
 
     @GetMapping("/{roleId}")
-    public ResponseEntity<RoleEntity> getRoleById(@PathVariable long roleId) {
+    public ResponseEntity<RoleDTO> getRoleById(@PathVariable long roleId) {
         return ResponseEntity.ok().body(this.roleService.getRoleById(roleId).orElseThrow(() -> new RoleNotFoundException(roleId)));
     }
 
     @PostMapping
-    public ResponseEntity<RoleEntity> createRole(@Valid @RequestBody CreateRoleRequestDTO role) {
+    public ResponseEntity<RoleDTO> createRole(@Valid @RequestBody CreateRoleRequestDTO role) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.roleService.createRole(role));
     }
 
     @PutMapping("/{role_id}")
-    public ResponseEntity<RoleEntity> updateRole(@PathVariable long roleId, @Valid @RequestBody UpdateRoleRequestDTO role) {
+    public ResponseEntity<RoleDTO> updateRole(@PathVariable long roleId, @Valid @RequestBody UpdateRoleRequestDTO role) {
         return ResponseEntity.ok().body(this.roleService.updateRole(roleId, role));
     }
 

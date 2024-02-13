@@ -1,5 +1,6 @@
 package com.accion.consultation.service.impl;
 
+import com.accion.consultation.entities.RoleEntity;
 import com.accion.consultation.models.CustomUserDetails;
 import com.accion.consultation.models.dto.auth.AuthRequestDTO;
 import com.accion.consultation.models.dto.auth.JwtResponseDTO;
@@ -9,10 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.stream.Collectors;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -33,7 +35,7 @@ public class AuthServiceImpl implements AuthService {
 
             return JwtResponseDTO.builder()
                     .accessToken(jwtService.generateToken(userDetails))
-                    .role(userDetails.getRole().getName())
+                    .roles(userDetails.getRoles().stream().map(RoleEntity::getName).collect(Collectors.toList()))
                     .build();
         } else {
             throw new UsernameNotFoundException("Invalid Auth Request");
