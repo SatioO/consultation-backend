@@ -12,6 +12,7 @@ import com.accion.consultation.repositories.PatientRepository;
 import com.accion.consultation.repositories.RoleRepository;
 import com.accion.consultation.repositories.UserRepository;
 import com.accion.consultation.service.PatientService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +22,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class PatientServiceImpl implements PatientService {
     private final PatientRepository patientRepository;
     private final RoleRepository roleRepository;
@@ -49,33 +51,28 @@ public class PatientServiceImpl implements PatientService {
     public PatientDTO createPatient(@RequestBody CreatePatientRequestDTO body) {
         return roleRepository.findByName(RoleEnum.PATIENT.getDescription()).map(role -> {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            String encryptedPassword = encoder.encode(body.getPassword());
-
-//            UserEntity user = new UserEntity();
-//            user.setUsername(body.getEmail());
-//            user.setPassword(encryptedPassword);
-//            user.setRole(role);
-
-//            PatientEntity patientEntity = new PatientEntity();
-//            patientEntity.setUsername("");
-//            userRepository.findByUsername("vaibhav.satam");
+            String encryptedPassword = encoder.encode("helloworld");
 
             PatientEntity patient = patientMapper.toCreatePatientEntity(body);
-//            user.setPatient(patient);
-//            UserEntity savedUser = userRepository.save(user);
+            patient.setRole(role);
+            patient.setPassword(encryptedPassword);
 
-            return new PatientDTO();
-//            return patientMapper.toModel(savedUser.getPatient());
-        }).orElseThrow(() -> new RuntimeException("Something went wrong ..!!"));
+            PatientEntity savedPatient = patientRepository.save(patient);
+            return patientMapper.toModel(savedPatient);
+        }).orElseThrow(() -> {
+            log.error("Role Missing: " + RoleEnum.PATIENT.getDescription());
+            return new RuntimeException("Error while creating new patient");
+        });
     }
 
-    public PatientDTO updatePatient(long patientId, UpdatePatientRequestDTO patient) {
-        PatientEntity patientEntity = this.patientMapper.toUpdatePatientEntity(patient);
-        return patientMapper.toModel(this.patientRepository.save(patientEntity));
+    public PatientDTO updatePatient(long patientId, UpdatePatientRequestDTO body) {
+        PatientEntity patient = this.patientMapper.toUpdatePatientEntity(body);
+        return patientMapper.toModel(this.patientRepository.save(patient));
     }
 
     public void deletePatient(long patientId) {
         this.patientRepository.findById(patientId).ifPresent(patient -> {
+            patient.setStatus(PatientStatus.INACTIVE);
             this.patientRepository.save(patient);
         });
     }

@@ -5,7 +5,6 @@ import com.accion.consultation.models.MaritalStatus;
 import com.accion.consultation.models.PatientStatus;
 import com.accion.consultation.models.YesOrNoIndicator;
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -52,11 +51,9 @@ public class PatientEntity extends UserEntity  {
     private Instant updatedAt;
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
-//    @Builder.Default
     private List<PatientAddressEntity> addresses = new ArrayList<>();
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
-//    @Builder.Default
     private List<PatientPhoneEntity> contactInfo = new ArrayList<>();
 }
 
