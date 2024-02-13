@@ -8,12 +8,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "patient_address")
+@Table(name = "user_address")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class PatientAddressEntity {
+public class UserAddressEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -26,7 +26,7 @@ public class PatientAddressEntity {
     private String country;
 
     @ManyToOne
-    @JoinColumn(name = "patient_id")
-    private PatientEntity patient;
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 }
 

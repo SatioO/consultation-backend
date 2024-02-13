@@ -1,6 +1,7 @@
 package com.accion.consultation.service.impl;
 
 import com.accion.consultation.configurations.JwtProperties;
+import com.accion.consultation.entities.RoleEntity;
 import com.accion.consultation.models.CustomUserDetails;
 import com.accion.consultation.service.JwtService;
 import io.jsonwebtoken.Claims;
@@ -16,6 +17,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -26,7 +28,7 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public String generateToken(CustomUserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("role", userDetails.getRole().getName());
+        claims.put("roles", userDetails.getRoles().stream().map(RoleEntity::getName).collect(Collectors.toList()));
         return createToken(claims, userDetails.getUsername());
     }
 

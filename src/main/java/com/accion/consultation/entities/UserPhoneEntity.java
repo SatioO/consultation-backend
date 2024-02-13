@@ -9,12 +9,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "patient_contact")
+@Table(name = "user_contact")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class PatientPhoneEntity {
+public class UserPhoneEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -25,6 +25,6 @@ public class PatientPhoneEntity {
     private String unformattedPhoneNumber;
 
     @ManyToOne
-    @JoinColumn(name = "patient_id")
-    private PatientEntity patient;
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 }

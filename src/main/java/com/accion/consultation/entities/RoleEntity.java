@@ -17,4 +17,8 @@ public class RoleEntity {
 
     @Column(unique = true)
     private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 }

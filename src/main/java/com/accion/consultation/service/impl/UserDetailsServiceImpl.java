@@ -1,6 +1,5 @@
 package com.accion.consultation.service.impl;
 
-import com.accion.consultation.entities.AdminEntity;
 import com.accion.consultation.entities.UserEntity;
 import com.accion.consultation.models.CustomUserDetails;
 import com.accion.consultation.repositories.UserRepository;

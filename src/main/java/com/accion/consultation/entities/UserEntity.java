@@ -1,10 +1,19 @@
 package com.accion.consultation.entities;
 
+import com.accion.consultation.models.AdministrativeSex;
+import com.accion.consultation.models.MaritalStatus;
+import com.accion.consultation.models.UserStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -17,13 +26,44 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long userId;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String username;
 
     @JsonIgnore
+    @Column(nullable = false)
     private String password;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "role_id")
-    private RoleEntity role;
+    @Embedded
+    private PersonName name;
+
+    @Column(nullable = false)
+    private String email;
+
+    @Column
+    private Instant dob;
+
+    @Column
+    private MaritalStatus maritalStatus;
+
+    @Column(nullable = false)
+    private AdministrativeSex administrativeSex;
+
+    @Column(nullable = false)
+    private UserStatus status;
+
+    @Column(updatable = false)
+    @CreationTimestamp
+    private Instant createdAt;
+
+    @UpdateTimestamp
+    private Instant updatedAt;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<RoleEntity> roles;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<UserAddressEntity> addresses = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<UserPhoneEntity> contacts = new ArrayList<>();
 }

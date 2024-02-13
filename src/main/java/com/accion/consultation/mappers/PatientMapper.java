@@ -2,7 +2,7 @@ package com.accion.consultation.mappers;
 
 import com.accion.consultation.entities.PatientEntity;
 import com.accion.consultation.entities.PersonName;
-import com.accion.consultation.models.PatientStatus;
+import com.accion.consultation.models.UserStatus;
 import com.accion.consultation.models.YesOrNoIndicator;
 import com.accion.consultation.models.dto.NameDTO;
 import com.accion.consultation.models.dto.patient.CreatePatientRequestDTO;
@@ -10,8 +10,16 @@ import com.accion.consultation.models.dto.patient.PatientDTO;
 import com.accion.consultation.models.dto.patient.UpdatePatientRequestDTO;
 import org.springframework.stereotype.Component;
 
+import java.util.stream.Collectors;
+
 @Component
 public class PatientMapper implements EntityMapper<PatientEntity, PatientDTO> {
+    private final AddressMapper addressMapper;
+
+    public PatientMapper(AddressMapper addressMapper) {
+        this.addressMapper = addressMapper;
+    }
+
     @Override
     public PatientEntity toEntity(PatientDTO model) {
         PersonName personName = new PersonName();
@@ -20,6 +28,7 @@ public class PatientMapper implements EntityMapper<PatientEntity, PatientDTO> {
         personName.setFamilyName(model.getName().getFamilyName());
 
         PatientEntity patient = new PatientEntity();
+        patient.setUserId(model.getUserId());
         patient.setUsername(model.getEmail());
         patient.setName(personName);
         patient.setEmail(model.getEmail());
@@ -30,7 +39,13 @@ public class PatientMapper implements EntityMapper<PatientEntity, PatientDTO> {
         patient.setMaritalStatus(model.getMaritalStatus());
         patient.setAdministrativeSex(model.getAdministrativeSex());
         patient.setIs_deceased(YesOrNoIndicator.N);
-        patient.setStatus(PatientStatus.ACTIVE);
+        patient.setStatus(UserStatus.ACTIVE);
+
+        patient.setAddresses(model
+                .getAddresses()
+                .stream()
+                .map(addressMapper::toEntity)
+                .collect(Collectors.toList()));
 
         return patient;
     }
@@ -43,7 +58,7 @@ public class PatientMapper implements EntityMapper<PatientEntity, PatientDTO> {
         personName.setFamilyName(entity.getName().getFamilyName());
 
         PatientDTO patient = new PatientDTO();
-        patient.setPatientId(entity.getUserId());
+        patient.setUserId(entity.getUserId());
         patient.setName(personName);
         patient.setEmail(entity.getEmail());
         patient.setDob(entity.getDob());
@@ -57,6 +72,13 @@ public class PatientMapper implements EntityMapper<PatientEntity, PatientDTO> {
         patient.setStatus(entity.getStatus());
         patient.setCreatedAt(entity.getCreatedAt());
         patient.setUpdatedAt(entity.getUpdatedAt());
+
+        patient.setAddresses(entity
+                .getAddresses()
+                .stream()
+                .map(addressMapper::toModel)
+                .collect(Collectors.toList()));
+
         return patient;
     }
 
@@ -77,7 +99,7 @@ public class PatientMapper implements EntityMapper<PatientEntity, PatientDTO> {
         patient.setMaritalStatus(model.getMaritalStatus());
         patient.setAdministrativeSex(model.getAdministrativeSex());
         patient.setIs_deceased(YesOrNoIndicator.N);
-        patient.setStatus(PatientStatus.ACTIVE);
+        patient.setStatus(UserStatus.ACTIVE);
         return patient;
     }
 

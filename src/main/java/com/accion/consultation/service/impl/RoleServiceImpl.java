@@ -3,6 +3,7 @@ package com.accion.consultation.service.impl;
 import com.accion.consultation.entities.RoleEntity;
 import com.accion.consultation.mappers.RoleMapper;
 import com.accion.consultation.models.dto.role.CreateRoleRequestDTO;
+import com.accion.consultation.models.dto.role.RoleDTO;
 import com.accion.consultation.models.dto.role.UpdateRoleRequestDTO;
 import com.accion.consultation.repositories.RoleRepository;
 import com.accion.consultation.service.RoleService;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class RoleServiceImpl implements RoleService {
@@ -22,25 +24,28 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<RoleEntity> getRoles() {
-        return roleRepository.findAll();
+    public List<RoleDTO> getRoles() {
+        return roleRepository.findAll()
+                .stream()
+                .map(roleMapper::toModel)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Optional<RoleEntity> getRoleById(long roleId) {
-        return roleRepository.findById(roleId);
+    public Optional<RoleDTO> getRoleById(long roleId) {
+        return roleRepository.findById(roleId).map(roleMapper::toModel);
     }
 
     @Override
-    public RoleEntity createRole(CreateRoleRequestDTO role) {
+    public RoleDTO createRole(CreateRoleRequestDTO role) {
         RoleEntity entity = roleMapper.toCreateRoleEntity(role);
-        return roleRepository.save(entity);
+        return roleMapper.toModel(roleRepository.save(entity));
     }
 
     @Override
-    public RoleEntity updateRole(long roleId, UpdateRoleRequestDTO role) {
+    public RoleDTO updateRole(long roleId, UpdateRoleRequestDTO role) {
         RoleEntity entity = roleMapper.toUpdateRoleEntity(role);
-        return roleRepository.save(entity);
+        return roleMapper.toModel(roleRepository.save(entity));
     }
 
     @Override

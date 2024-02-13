@@ -1,12 +1,12 @@
 package com.accion.consultation.models;
 
-public enum PatientStatus {
+public enum UserStatus {
     INACTIVE("Inactive"),
     ACTIVE("Active");
 
     private final String description;
 
-    PatientStatus(String description) {
+    UserStatus(String description) {
         this.description = description;
     }
 

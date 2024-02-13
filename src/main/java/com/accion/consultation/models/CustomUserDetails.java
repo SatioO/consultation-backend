@@ -18,8 +18,7 @@ import java.util.Objects;
 public class CustomUserDetails extends UserEntity implements UserDetails {
     private String username;
     private String password;
-    private RoleEntity role;
-    private PatientEntity patient;
+    private List<RoleEntity> roles;
 
     private final Collection<? extends GrantedAuthority> authorities;
 
@@ -28,8 +27,10 @@ public class CustomUserDetails extends UserEntity implements UserDetails {
         this.password= byUsername.getPassword();
         List<GrantedAuthority> auths = new ArrayList<>();
 
-        this.role = byUsername.getRole();
-        auths.add(new SimpleGrantedAuthority(this.role.getName()));
+        byUsername.getRoles().forEach(role -> {
+            auths.add(new SimpleGrantedAuthority(role.getName()));
+        });
+
         this.authorities = auths;
     }
 
@@ -74,17 +75,15 @@ public class CustomUserDetails extends UserEntity implements UserDetails {
     }
 
     @Override
-    public RoleEntity getRole() {
-        return role;
-    }
-
-    @Override
-    public void setRole(RoleEntity role) {
-        this.role = role;
-    }
-
-    @Override
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<RoleEntity> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<RoleEntity> roles) {
+        this.roles = roles;
     }
 }
