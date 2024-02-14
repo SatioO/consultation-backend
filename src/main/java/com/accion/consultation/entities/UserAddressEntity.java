@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class UserAddressEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private AddressType type;
     private String address_1;
     private String address_2;

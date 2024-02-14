@@ -4,7 +4,6 @@ import com.accion.consultation.constants.RoleEnum;
 import com.accion.consultation.entities.PatientEntity;
 import com.accion.consultation.entities.RoleEntity;
 import com.accion.consultation.entities.UserAddressEntity;
-import com.accion.consultation.entities.UserEntity;
 import com.accion.consultation.exceptions.UserNotFoundException;
 import com.accion.consultation.mappers.AddressMapper;
 import com.accion.consultation.mappers.PatientMapper;
@@ -14,11 +13,12 @@ import com.accion.consultation.models.dto.patient.PatientDTO;
 import com.accion.consultation.models.dto.patient.UpdatePatientRequestDTO;
 import com.accion.consultation.repositories.PatientRepository;
 import com.accion.consultation.repositories.RoleRepository;
-import com.accion.consultation.repositories.UserRepository;
+import com.accion.consultation.repositories.UserAddressRepository;
 import com.accion.consultation.service.PatientService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
@@ -30,19 +30,21 @@ import java.util.stream.Collectors;
 @Slf4j
 public class PatientServiceImpl implements PatientService {
     private final PatientRepository patientRepository;
+    private final UserAddressRepository userAddressRepository;
     private final RoleRepository roleRepository;
     private final PatientMapper patientMapper;
     private final AddressMapper addressMapper;
 
-    public PatientServiceImpl(PatientRepository patientRepository, RoleRepository roleRepository, PatientMapper patientMapper, AddressMapper addressMapper) {
+    public PatientServiceImpl(PatientRepository patientRepository, UserAddressRepository userAddressRepository, RoleRepository roleRepository, PatientMapper patientMapper, AddressMapper addressMapper) {
         this.patientRepository = patientRepository;
+        this.userAddressRepository = userAddressRepository;
         this.roleRepository = roleRepository;
         this.patientMapper = patientMapper;
         this.addressMapper = addressMapper;
     }
 
     public List<PatientDTO> findPatients() {
-        return this.patientRepository.findAll().stream().map(patientMapper::toModel).collect(Collectors.toList());
+        return this.patientRepository.findByRoles_Name(RoleEnum.PATIENT.getDescription()).stream().map(patientMapper::toModel).collect(Collectors.toList());
     }
 
     public Optional<PatientDTO> findPatientById(long patientId) {
@@ -76,9 +78,18 @@ public class PatientServiceImpl implements PatientService {
         throw new RuntimeException("Error while creating new patient");
     }
 
+    @Transactional
     public PatientDTO updatePatient(long patientId, UpdatePatientRequestDTO body) {
         return patientRepository.findById(patientId)
                 .map(patient -> this.patientRepository.save(this.patientMapper.toUpdatePatientEntity(patient, body)))
+                .map(patient -> {
+                    List<UserAddressEntity> addresses = body.getAddresses().stream()
+                            .map(addressMapper::toEntity)
+                            .collect(Collectors.toList());
+
+                    userAddressRepository.saveAll(addresses);
+                    return patient;
+                })
                 .map(patientMapper::toModel)
                 .orElseThrow(() -> new UserNotFoundException(patientId));
     }
