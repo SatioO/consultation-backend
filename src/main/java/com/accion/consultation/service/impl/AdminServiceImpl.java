@@ -3,6 +3,7 @@ package com.accion.consultation.service.impl;
 import com.accion.consultation.constants.RoleEnum;
 import com.accion.consultation.entities.RoleEntity;
 import com.accion.consultation.entities.UserEntity;
+import com.accion.consultation.exceptions.RoleNotFoundException;
 import com.accion.consultation.mappers.AdminMapper;
 import com.accion.consultation.models.UserStatus;
 import com.accion.consultation.models.dto.admin.AdminDTO;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,7 +36,13 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<AdminDTO> findAdmins() {
-        return userRepository.findAll().stream().map(adminMapper::toModel).collect(Collectors.toList());
+        return roleRepository
+                .findByName(RoleEnum.ADMIN.getDescription())
+                .map(role -> userRepository.findByRoles_Name(RoleEnum.ADMIN.getDescription())
+                        .stream()
+                        .map(adminMapper::toModel)
+                        .collect(Collectors.toList()))
+                .orElseThrow(() -> new RuntimeException("No role found with name: " + RoleEnum.ADMIN.getDescription()));
     }
 
     @Override
@@ -53,7 +61,7 @@ public class AdminServiceImpl implements AdminService {
             user.setPassword(encryptedPassword);
 
             RoleEntity role = foundRole.get();
-            user.setRoles(List.of(role));
+            user.setRoles(Set.of(role));
 
             UserEntity savedUser = userRepository.save(user);
             return adminMapper.toModel(savedUser);

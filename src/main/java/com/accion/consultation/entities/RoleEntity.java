@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -18,7 +20,6 @@ public class RoleEntity {
     @Column(unique = true)
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
+    @ManyToMany(mappedBy = "roles")
+    private Set<UserEntity> users;
 }
