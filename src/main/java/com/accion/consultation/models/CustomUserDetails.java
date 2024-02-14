@@ -10,22 +10,23 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 @Slf4j
 public class CustomUserDetails extends UserEntity implements UserDetails {
     private String username;
     private String password;
-    private Set<RoleEntity> roles;
+    private List<RoleEntity> roles;
 
     private final Collection<? extends GrantedAuthority> authorities;
 
     public CustomUserDetails(UserEntity byUsername) {
+        log.info("Entering in Custom User Details");
         this.username = byUsername.getUsername();
         this.password= byUsername.getPassword();
-        List<GrantedAuthority> auths = new ArrayList<>();
+        this.roles = byUsername.getRoles();
 
-        byUsername.getRoles().forEach(role -> {
+        List<GrantedAuthority> auths = new ArrayList<>();
+        this.roles.forEach(role -> {
             auths.add(new SimpleGrantedAuthority(role.getName()));
         });
 
@@ -77,11 +78,15 @@ public class CustomUserDetails extends UserEntity implements UserDetails {
         this.password = password;
     }
 
-    public Set<RoleEntity> getRoles() {
+
+    @Override
+    public List<RoleEntity> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<RoleEntity> roles) {
+    @Override
+    public void setRoles(List<RoleEntity> roles) {
         this.roles = roles;
     }
+
 }

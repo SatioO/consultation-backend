@@ -1,18 +1,24 @@
 package com.accion.consultation.mappers;
 
-import com.accion.consultation.entities.PatientEntity;
 import com.accion.consultation.entities.PersonName;
 import com.accion.consultation.entities.UserEntity;
 import com.accion.consultation.models.UserStatus;
-import com.accion.consultation.models.YesOrNoIndicator;
 import com.accion.consultation.models.dto.NameDTO;
 import com.accion.consultation.models.dto.admin.AdminDTO;
 import com.accion.consultation.models.dto.admin.CreateAdminRequestDTO;
 import com.accion.consultation.models.dto.admin.UpdateAdminRequestDTO;
 import org.springframework.stereotype.Component;
 
+import java.util.stream.Collectors;
+
 @Component
 public class AdminMapper implements EntityMapper<UserEntity, AdminDTO> {
+    private final RoleMapper roleMapper;
+
+    public AdminMapper(RoleMapper roleMapper) {
+        this.roleMapper = roleMapper;
+    }
+
     @Override
     public UserEntity toEntity(AdminDTO model) {
         PersonName personName = new PersonName();

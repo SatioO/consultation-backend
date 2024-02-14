@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Slf4j
@@ -37,13 +38,14 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<AdminDTO> findAdmins() {
-        return roleRepository
-                .findByName(RoleEnum.ADMIN.getDescription())
-                .map(role -> userRepository.findByRoles_Name(RoleEnum.ADMIN.getDescription())
-                        .stream()
-                        .map(adminMapper::toModel)
-                        .collect(Collectors.toList()))
-                .orElseThrow(() -> new RuntimeException("No role found with name: " + RoleEnum.ADMIN.getDescription()));
+        return userRepository.findByRoles_Name(RoleEnum.ADMIN.getDescription())
+                .stream()
+//                .peek(user -> {
+//                    System.out.println("user: " + user.getUsername());
+//                    System.out.println("roles: " + user.getRoles());
+//                })
+                .map(adminMapper::toModel)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -62,7 +64,7 @@ public class AdminServiceImpl implements AdminService {
             user.setPassword(encryptedPassword);
 
             RoleEntity role = foundRole.get();
-            user.setRoles(Set.of(role));
+            user.setRoles(List.of(role));
 
             UserEntity savedUser = userRepository.save(user);
             return adminMapper.toModel(savedUser);

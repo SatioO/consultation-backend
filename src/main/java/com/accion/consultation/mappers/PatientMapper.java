@@ -63,6 +63,7 @@ public class PatientMapper implements EntityMapper<PatientEntity, PatientDTO> {
         PatientDTO model = new PatientDTO();
         model.setUserId(entity.getUserId());
         model.setName(personName);
+        model.setUsername(entity.getEmail());
         model.setEmail(entity.getEmail());
         model.setDob(entity.getDob());
         model.setMrn(entity.getMrn());
