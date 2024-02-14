@@ -41,6 +41,7 @@ public class AdminMapper implements EntityMapper<UserEntity, AdminDTO> {
 
         AdminDTO model = new AdminDTO();
         model.setUserId(entity.getUserId());
+        model.setUsername(entity.getEmail());
         model.setName(personName);
         model.setEmail(entity.getEmail());
         model.setDob(entity.getDob());

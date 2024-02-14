@@ -1,7 +1,5 @@
 package com.accion.consultation.models;
 
-import com.accion.consultation.constants.RoleEnum;
-import com.accion.consultation.entities.PatientEntity;
 import com.accion.consultation.entities.RoleEntity;
 import com.accion.consultation.entities.UserEntity;
 import lombok.extern.slf4j.Slf4j;
@@ -12,13 +10,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
+import java.util.Set;
 
 @Slf4j
 public class CustomUserDetails extends UserEntity implements UserDetails {
     private String username;
     private String password;
-    private List<RoleEntity> roles;
+    private Set<RoleEntity> roles;
 
     private final Collection<? extends GrantedAuthority> authorities;
 
@@ -79,11 +77,11 @@ public class CustomUserDetails extends UserEntity implements UserDetails {
         this.password = password;
     }
 
-    public List<RoleEntity> getRoles() {
+    public Set<RoleEntity> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<RoleEntity> roles) {
+    public void setRoles(Set<RoleEntity> roles) {
         this.roles = roles;
     }
 }
