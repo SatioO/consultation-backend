@@ -5,6 +5,7 @@ import com.accion.consultation.entities.PatientEntity;
 import com.accion.consultation.entities.RoleEntity;
 import com.accion.consultation.entities.UserAddressEntity;
 import com.accion.consultation.entities.UserEntity;
+import com.accion.consultation.exceptions.UserNotFoundException;
 import com.accion.consultation.mappers.AddressMapper;
 import com.accion.consultation.mappers.PatientMapper;
 import com.accion.consultation.models.UserStatus;
@@ -76,14 +77,10 @@ public class PatientServiceImpl implements PatientService {
     }
 
     public PatientDTO updatePatient(long patientId, UpdatePatientRequestDTO body) {
-        PatientEntity patient = this.patientMapper.toUpdatePatientEntity(body);
-
-        patient.setAddresses(body.getAddresses().stream()
-                .map(addressMapper::toEntity)
-                .peek(address -> address.setUser(patient))
-                .collect(Collectors.toList()));
-
-        return patientMapper.toModel(this.patientRepository.save(patient));
+        return patientRepository.findById(patientId)
+                .map(patient -> this.patientRepository.save(this.patientMapper.toUpdatePatientEntity(patient, body)))
+                .map(patientMapper::toModel)
+                .orElseThrow(() -> new UserNotFoundException(patientId));
     }
 
     public void deletePatient(long patientId) {

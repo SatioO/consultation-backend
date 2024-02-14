@@ -4,6 +4,7 @@ import com.accion.consultation.constants.RoleEnum;
 import com.accion.consultation.entities.RoleEntity;
 import com.accion.consultation.entities.UserEntity;
 import com.accion.consultation.exceptions.RoleNotFoundException;
+import com.accion.consultation.exceptions.UserNotFoundException;
 import com.accion.consultation.mappers.AdminMapper;
 import com.accion.consultation.models.UserStatus;
 import com.accion.consultation.models.dto.admin.AdminDTO;
@@ -73,8 +74,10 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public AdminDTO updateAdmin(long adminId, UpdateAdminRequestDTO body) {
-        UserEntity user = this.adminMapper.toUpdateAdminEntity(body);
-        return adminMapper.toModel(this.userRepository.save(user));
+        return userRepository.findById(adminId)
+                .map(user -> this.userRepository.save(this.adminMapper.toUpdateAdminEntity(user, body)))
+                .map(adminMapper::toModel)
+                .orElseThrow(() -> new UserNotFoundException(adminId));
     }
 
     @Override

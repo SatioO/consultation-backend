@@ -103,22 +103,21 @@ public class PatientMapper implements EntityMapper<PatientEntity, PatientDTO> {
         return patient;
     }
 
-    public PatientEntity toUpdatePatientEntity(UpdatePatientRequestDTO model) {
+    public PatientEntity toUpdatePatientEntity(PatientEntity entity, UpdatePatientRequestDTO model) {
         PersonName personName = new PersonName();
         personName.setGivenName(model.getName().getGivenName());
         personName.setMiddleName(model.getName().getMiddleName());
         personName.setFamilyName(model.getName().getFamilyName());
 
-        PatientEntity patient = new PatientEntity();
-        patient.setName(personName);
-        patient.setEmail(model.getEmail());
-        patient.setDob(model.getDob());
-        patient.setMrn(model.getMrn());
-        patient.setSsn(model.getSsn());
-        patient.setLicenseNumber(model.getLicenseNumber());
-        patient.setMaritalStatus(model.getMaritalStatus());
-        patient.setAdministrativeSex(model.getSex());
+        entity.setName(personName);
+        entity.setEmail(model.getEmail());
+        entity.setDob(model.getDob());
+        entity.setMrn(model.getMrn());
+        entity.setSsn(model.getSsn());
+        entity.setLicenseNumber(model.getLicenseNumber());
+        entity.setMaritalStatus(model.getMaritalStatus());
+        entity.setAdministrativeSex(model.getSex());
 
-        return patient;
+        return entity;
     }
 }
