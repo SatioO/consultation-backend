@@ -9,6 +9,7 @@ public class AddressMapper implements EntityMapper<UserAddressEntity, AddressDTO
     @Override
     public UserAddressEntity toEntity(AddressDTO model) {
         UserAddressEntity entity = new UserAddressEntity();
+        entity.setId(model.getId());
         entity.setType(model.getType());
         entity.setAddress_1(model.getAddress_1());
         entity.setAddress_2(model.getAddress_2());
@@ -22,6 +23,7 @@ public class AddressMapper implements EntityMapper<UserAddressEntity, AddressDTO
     @Override
     public AddressDTO toModel(UserAddressEntity entity) {
         AddressDTO model = new AddressDTO();
+        model.setId(entity.getId());
         model.setType(entity.getType());
         model.setAddress_1(entity.getAddress_1());
         model.setAddress_2(entity.getAddress_2());

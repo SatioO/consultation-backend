@@ -21,7 +21,7 @@ public class UpdatePatientRequestDTO {
     private NameDTO name;
     private String email;
     private Instant dob;
-    private AdministrativeSex sex;
+    private AdministrativeSex administrativeSex;
     private String licenseNumber;
     private MaritalStatus maritalStatus;
     private List<AddressDTO> addresses = new ArrayList<>();

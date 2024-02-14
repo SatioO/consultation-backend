@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class UserPhoneEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private EquipmentType equipmentType;
     private PhoneUseCode type;
     private String extension;
