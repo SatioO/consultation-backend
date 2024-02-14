@@ -22,10 +22,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("Entering in loadUserByUsername");
         Optional<UserEntity> user = userRepository.findByUsername(username);
-//        if(user.isPresent()) {
-//            AdminEntity admin = user.get().getAdmin();
-//            System.out.println(admin);
-//        }
         return user.map(CustomUserDetails::new).orElseThrow(() -> new UsernameNotFoundException("Could not found user"));
     }
 }

@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -61,7 +60,7 @@ public class PatientServiceImpl implements PatientService {
             patient.setPassword(encryptedPassword);
 
             RoleEntity role = foundRole.get();
-            patient.setRoles(Set.of(role));
+            patient.setRoles(List.of(role));
 
             List<UserAddressEntity> addresses = body.getAddresses()
                     .stream()

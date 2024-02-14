@@ -14,7 +14,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Data
@@ -23,6 +22,25 @@ import java.util.Set;
 @Table(name = "user")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class UserEntity {
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "userId=" + userId +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", name=" + name +
+                ", email='" + email + '\'' +
+                ", dob=" + dob +
+                ", maritalStatus=" + maritalStatus +
+                ", administrativeSex=" + administrativeSex +
+                ", status=" + status +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", addresses=" + addresses +
+                ", contacts=" + contacts +
+                '}';
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
@@ -59,9 +77,9 @@ public class UserEntity {
     @UpdateTimestamp
     private Instant updatedAt;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<RoleEntity> roles;
+    private List<RoleEntity> roles = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserAddressEntity> addresses = new ArrayList<>();
