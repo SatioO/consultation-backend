@@ -69,19 +69,16 @@ public class AdminMapper implements EntityMapper<UserEntity, AdminDTO> {
         return entity;
     }
 
-    public UserEntity toUpdateAdminEntity(UpdateAdminRequestDTO model) {
+    public UserEntity toUpdateAdminEntity(UserEntity entity, UpdateAdminRequestDTO model) {
         PersonName personName = new PersonName();
         personName.setGivenName(model.getName().getGivenName());
         personName.setMiddleName(model.getName().getMiddleName());
         personName.setFamilyName(model.getName().getFamilyName());
 
-        UserEntity entity = new UserEntity();
-        entity.setUsername(model.getEmail());
         entity.setName(personName);
         entity.setEmail(model.getEmail());
         entity.setDob(model.getDob());
         entity.setAdministrativeSex(model.getAdministrativeSex());
-        entity.setStatus(UserStatus.ACTIVE);
 
         return entity;
     }
