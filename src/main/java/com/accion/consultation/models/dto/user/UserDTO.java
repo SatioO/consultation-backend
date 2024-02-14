@@ -3,9 +3,9 @@ package com.accion.consultation.models.dto.user;
 import com.accion.consultation.models.AdministrativeSex;
 import com.accion.consultation.models.MaritalStatus;
 import com.accion.consultation.models.UserStatus;
-import com.accion.consultation.models.YesOrNoIndicator;
 import com.accion.consultation.models.dto.AddressDTO;
 import com.accion.consultation.models.dto.NameDTO;
+import com.accion.consultation.models.dto.role.RoleDTO;
 import lombok.Data;
 
 import java.time.Instant;

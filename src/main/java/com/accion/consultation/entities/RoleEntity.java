@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.Set;
 
@@ -21,5 +22,6 @@ public class RoleEntity {
     private String name;
 
     @ManyToMany(mappedBy = "roles")
+    @ToString.Exclude
     private Set<UserEntity> users;
 }
