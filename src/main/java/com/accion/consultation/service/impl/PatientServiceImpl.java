@@ -29,24 +29,18 @@ import java.util.stream.Collectors;
 public class PatientServiceImpl implements PatientService {
     private final PatientRepository patientRepository;
     private final RoleRepository roleRepository;
-    private final UserRepository userRepository;
     private final PatientMapper patientMapper;
     private final AddressMapper addressMapper;
 
-    public PatientServiceImpl(PatientRepository patientRepository, RoleRepository roleRepository, UserRepository userRepository, PatientMapper patientMapper, AddressMapper addressMapper) {
+    public PatientServiceImpl(PatientRepository patientRepository, RoleRepository roleRepository, PatientMapper patientMapper, AddressMapper addressMapper) {
         this.patientRepository = patientRepository;
         this.roleRepository = roleRepository;
-        this.userRepository = userRepository;
         this.patientMapper = patientMapper;
         this.addressMapper = addressMapper;
     }
 
     public List<PatientDTO> findPatients() {
         return this.patientRepository.findAll().stream().map(patientMapper::toModel).collect(Collectors.toList());
-    }
-
-    public List<UserEntity> findUsers() {
-        return this.userRepository.findAll();
     }
 
     public Optional<PatientDTO> findPatientById(long patientId) {
@@ -82,6 +76,12 @@ public class PatientServiceImpl implements PatientService {
 
     public PatientDTO updatePatient(long patientId, UpdatePatientRequestDTO body) {
         PatientEntity patient = this.patientMapper.toUpdatePatientEntity(body);
+
+        patient.setAddresses(body.getAddresses().stream()
+                .map(addressMapper::toEntity)
+                .peek(address -> address.setUser(patient))
+                .collect(Collectors.toList()));
+
         return patientMapper.toModel(this.patientRepository.save(patient));
     }
 

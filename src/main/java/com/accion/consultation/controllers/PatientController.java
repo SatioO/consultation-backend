@@ -1,12 +1,10 @@
 package com.accion.consultation.controllers;
 
-import com.accion.consultation.entities.PatientEntity;
-import com.accion.consultation.entities.UserEntity;
 import com.accion.consultation.exceptions.UserNotFoundException;
 import com.accion.consultation.models.dto.patient.CreatePatientRequestDTO;
 import com.accion.consultation.models.dto.patient.PatientDTO;
 import com.accion.consultation.models.dto.patient.UpdatePatientRequestDTO;
-import com.accion.consultation.service.impl.PatientServiceImpl;
+import com.accion.consultation.service.PatientService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +15,9 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/api/v1/patients")
 public class PatientController {
-    private final PatientServiceImpl patientService;
+    private final PatientService patientService;
 
-    public PatientController(PatientServiceImpl patientService) {
+    public PatientController(PatientService patientService) {
         this.patientService = patientService;
     }
 
@@ -27,11 +25,6 @@ public class PatientController {
     public ResponseEntity<List<PatientDTO>> getPatients() {
         List<PatientDTO> foundPatients = patientService.findPatients();
         return ResponseEntity.status(HttpStatus.OK).body(foundPatients);
-    }
-
-    @GetMapping("/users")
-    public List<UserEntity> getUsers() {
-        return this.patientService.findUsers();
     }
 
     @GetMapping("/{patientId}")
