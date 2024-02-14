@@ -1,7 +1,5 @@
 package com.accion.consultation.service.impl;
 
-import com.accion.consultation.entities.PersonName;
-import com.accion.consultation.entities.RoleEntity;
 import com.accion.consultation.mappers.UserMapper;
 import com.accion.consultation.models.CustomUserDetails;
 import com.accion.consultation.models.dto.NameDTO;
@@ -18,8 +16,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import java.util.stream.Collectors;
-
 @Service
 @Slf4j
 public class AuthServiceImpl implements AuthService {
@@ -27,7 +23,6 @@ public class AuthServiceImpl implements AuthService {
     private AuthenticationManager authenticationManager;
     @Autowired
     private JwtService jwtService;
-
     @Autowired
     private UserMapper userMapper;
 
