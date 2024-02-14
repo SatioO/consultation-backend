@@ -22,25 +22,6 @@ import java.util.List;
 @Table(name = "user")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class UserEntity {
-    @Override
-    public String toString() {
-        return "UserEntity{" +
-                "userId=" + userId +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", name=" + name +
-                ", email='" + email + '\'' +
-                ", dob=" + dob +
-                ", maritalStatus=" + maritalStatus +
-                ", administrativeSex=" + administrativeSex +
-                ", status=" + status +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                ", addresses=" + addresses +
-                ", contacts=" + contacts +
-                '}';
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;

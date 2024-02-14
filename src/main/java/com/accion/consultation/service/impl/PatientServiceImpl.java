@@ -2,8 +2,8 @@ package com.accion.consultation.service.impl;
 
 import com.accion.consultation.constants.RoleEnum;
 import com.accion.consultation.entities.PatientEntity;
-import com.accion.consultation.entities.RoleEntity;
 import com.accion.consultation.entities.UserAddressEntity;
+import com.accion.consultation.exceptions.RoleNotFoundException;
 import com.accion.consultation.exceptions.UserNotFoundException;
 import com.accion.consultation.mappers.AddressMapper;
 import com.accion.consultation.mappers.PatientMapper;
@@ -43,7 +43,10 @@ public class PatientServiceImpl implements PatientService {
     }
 
     public List<PatientDTO> findPatients() {
-        return this.patientRepository.findByRoles_Name(RoleEnum.PATIENT.getDescription()).stream().map(patientMapper::toModel).collect(Collectors.toList());
+        return this.patientRepository
+                .findByRoles_Name(RoleEnum.PATIENT.getDescription())
+                .stream().map(patientMapper::toModel)
+                .collect(Collectors.toList());
     }
 
     public Optional<PatientDTO> findPatientById(long patientId) {
@@ -51,15 +54,13 @@ public class PatientServiceImpl implements PatientService {
     }
 
     public PatientDTO createPatient(@RequestBody CreatePatientRequestDTO body) {
-        Optional<RoleEntity> foundRole = roleRepository.findByName(RoleEnum.PATIENT.getDescription());
-        if(foundRole.isPresent()) {
+        return roleRepository.findByName(RoleEnum.PATIENT.getDescription()).map(role -> {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             String encryptedPassword = encoder.encode("helloworld");
 
             PatientEntity patient = patientMapper.toCreatePatientEntity(body);
             patient.setPassword(encryptedPassword);
 
-            RoleEntity role = foundRole.get();
             patient.setRoles(List.of(role));
 
             List<UserAddressEntity> addresses = body.getAddresses()
@@ -71,10 +72,7 @@ public class PatientServiceImpl implements PatientService {
 
             PatientEntity savedPatient = patientRepository.save(patient);
             return patientMapper.toModel(savedPatient);
-        }
-
-        log.error("Role Missing: " + RoleEnum.PATIENT.getDescription());
-        throw new RuntimeException("Error while creating new patient");
+        }).orElseThrow(() -> new RoleNotFoundException(RoleEnum.PATIENT.getDescription()));
     }
 
     @Transactional

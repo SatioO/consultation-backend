@@ -22,6 +22,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("Entering in loadUserByUsername");
         Optional<UserEntity> user = userRepository.findByUsername(username);
-        return user.map(CustomUserDetails::new).orElseThrow(() -> new UsernameNotFoundException("Could not found user"));
+        return user
+                .map(CustomUserDetails::new)
+                .orElseThrow(() -> new UsernameNotFoundException("Could not found user"));
     }
 }

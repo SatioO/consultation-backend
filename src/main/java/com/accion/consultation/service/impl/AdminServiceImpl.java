@@ -1,7 +1,6 @@
 package com.accion.consultation.service.impl;
 
 import com.accion.consultation.constants.RoleEnum;
-import com.accion.consultation.entities.RoleEntity;
 import com.accion.consultation.entities.UserEntity;
 import com.accion.consultation.exceptions.RoleNotFoundException;
 import com.accion.consultation.exceptions.UserNotFoundException;
@@ -19,9 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @Slf4j
@@ -40,10 +37,6 @@ public class AdminServiceImpl implements AdminService {
     public List<AdminDTO> findAdmins() {
         return userRepository.findByRoles_Name(RoleEnum.ADMIN.getDescription())
                 .stream()
-//                .peek(user -> {
-//                    System.out.println("user: " + user.getUsername());
-//                    System.out.println("roles: " + user.getRoles());
-//                })
                 .map(adminMapper::toModel)
                 .collect(Collectors.toList());
     }
@@ -55,23 +48,18 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public AdminDTO createAdmin(CreateAdminRequestDTO body) {
-        Optional<RoleEntity> foundRole = roleRepository.findByName(RoleEnum.ADMIN.getDescription());
-        if(foundRole.isPresent()) {
+        return roleRepository.findByName(RoleEnum.ADMIN.getDescription()).map(role -> {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             String encryptedPassword = encoder.encode("helloworld");
 
             UserEntity user = adminMapper.toCreateAdminEntity(body);
             user.setPassword(encryptedPassword);
 
-            RoleEntity role = foundRole.get();
             user.setRoles(List.of(role));
 
             UserEntity savedUser = userRepository.save(user);
             return adminMapper.toModel(savedUser);
-        }
-
-        log.error("Role Missing: " + RoleEnum.ADMIN.getDescription());
-        throw new RuntimeException("Error while creating new patient");
+        }).orElseThrow(() -> new RoleNotFoundException(RoleEnum.ADMIN.getDescription()));
     }
 
     @Override
