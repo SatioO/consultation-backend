@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "provider")
@@ -16,9 +17,9 @@ public class ProviderEntity extends UserEntity {
     private String ssn;
 
     // Professional Information
-    @ManyToOne
-    @JoinColumn(name = "speciality_id")
-    private SpecialityEntity speciality;
+    @ManyToMany
+    @JoinTable(name = "provider_speciality", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "speciality_id"))
+    private List<SpecialityEntity> speciality;
 
     @Column
     private String licenseNumber;

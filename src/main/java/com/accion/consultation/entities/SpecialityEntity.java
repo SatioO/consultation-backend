@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -25,4 +28,7 @@ public class SpecialityEntity {
     @Column(nullable = false)
     private SpecialityCategory category;
 
+    @ManyToMany(mappedBy = "speciality")
+    @ToString.Exclude
+    private List<ProviderEntity> provider;
 }

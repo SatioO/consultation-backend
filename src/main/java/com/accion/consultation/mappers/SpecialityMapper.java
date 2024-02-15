@@ -21,7 +21,13 @@ public class SpecialityMapper implements EntityMapper<SpecialityEntity, Speciali
 
     @Override
     public SpecialityDTO toModel(SpecialityEntity entity) {
-        return null;
+        SpecialityDTO model = new SpecialityDTO();
+        model.setId(entity.getId());
+        model.setName(entity.getName());
+        model.setDescription(entity.getDescription());
+        model.setCategory(entity.getCategory());
+
+        return model;
     }
 
     public SpecialityEntity toCreateSpecialityEntity(CreateSpecialityRequestDTO model) {
