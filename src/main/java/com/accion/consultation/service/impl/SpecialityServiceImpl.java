@@ -1,6 +1,7 @@
 package com.accion.consultation.service.impl;
 
 import com.accion.consultation.entities.SpecialityEntity;
+import com.accion.consultation.exceptions.SpecialityNotFound;
 import com.accion.consultation.mappers.SpecialityMapper;
 import com.accion.consultation.models.dto.speciality.CreateSpecialityRequestDTO;
 import com.accion.consultation.models.dto.speciality.SpecialityDTO;
@@ -45,9 +46,11 @@ public class SpecialityServiceImpl implements SpecialityService {
 
     @Override
     public SpecialityDTO updateSpeciality(long specialityId, UpdateSpecialityRequestDTO body) {
-        SpecialityEntity speciality = specialityMapper.toUpdateSpecialityEntity(body);
-        SpecialityEntity savedSpeciality = specialityRepository.save(speciality);
-        return specialityMapper.toModel(savedSpeciality);
+        return specialityRepository.findById(specialityId).map(speciality -> {
+            SpecialityEntity specialityEntity = specialityMapper.toUpdateSpecialityEntity(speciality, body);
+            SpecialityEntity savedSpeciality = specialityRepository.save(specialityEntity);
+            return specialityMapper.toModel(savedSpeciality);
+        }).orElseThrow(() -> new SpecialityNotFound(specialityId));
     }
 
     @Override

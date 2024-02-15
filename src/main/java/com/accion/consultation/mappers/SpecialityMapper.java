@@ -10,7 +10,13 @@ import org.springframework.stereotype.Component;
 public class SpecialityMapper implements EntityMapper<SpecialityEntity, SpecialityDTO> {
     @Override
     public SpecialityEntity toEntity(SpecialityDTO model) {
-        return null;
+        SpecialityEntity entity = new SpecialityEntity();
+        entity.setId(model.getId());
+        entity.setName(model.getName());
+        entity.setDescription(model.getDescription());
+        entity.setCategory(model.getCategory());
+
+        return entity;
     }
 
     @Override
@@ -19,10 +25,19 @@ public class SpecialityMapper implements EntityMapper<SpecialityEntity, Speciali
     }
 
     public SpecialityEntity toCreateSpecialityEntity(CreateSpecialityRequestDTO model) {
-        return null;
+        SpecialityEntity entity = new SpecialityEntity();
+        entity.setName(model.getName());
+        entity.setDescription(model.getDescription());
+        entity.setCategory(model.getCategory());
+
+        return entity;
     }
 
-    public SpecialityEntity toUpdateSpecialityEntity(UpdateSpecialityRequestDTO model) {
-        return null;
+    public SpecialityEntity toUpdateSpecialityEntity(SpecialityEntity entity, UpdateSpecialityRequestDTO model) {
+        entity.setName(model.getName());
+        entity.setDescription(model.getDescription());
+        entity.setCategory(model.getCategory());
+
+        return entity;
     }
 }
