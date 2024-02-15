@@ -1,6 +1,6 @@
 package com.accion.consultation.service.impl;
 
-import com.accion.consultation.constants.RoleEnum;
+import com.accion.consultation.enums.RoleEnum;
 import com.accion.consultation.entities.PatientEntity;
 import com.accion.consultation.entities.UserAddressEntity;
 import com.accion.consultation.exceptions.RoleNotFoundException;

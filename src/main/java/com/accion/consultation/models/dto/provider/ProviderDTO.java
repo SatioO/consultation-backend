@@ -1,44 +1,26 @@
-package com.accion.consultation.entities;
+package com.accion.consultation.models.dto.provider;
 
-import jakarta.persistence.*;
-import lombok.Builder;
+import com.accion.consultation.models.dto.speciality.SpecialityDTO;
+import com.accion.consultation.models.dto.user.UserDTO;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "provider")
-@Builder
-public class ProviderEntity extends UserEntity {
-    @Column(nullable = false)
+@EqualsAndHashCode(callSuper = true)
+@Data
+public class ProviderDTO extends UserDTO {
     private Long npi;
-
-    @Column(nullable = false)
     private String ssn;
 
-    // Professional Information
-    @ManyToOne
-    @JoinColumn(name = "speciality_id")
-    private SpecialityEntity speciality;
-
-    @Column
+    private SpecialityDTO speciality;
     private String licenseNumber;
-
-    @Column
     private String stateLicenseIssued;
-
-    @Column
     private LocalDate licenseExpirationDate;
-
-    @Column
     private boolean acceptingNewPatients; // Flag to indicate availability
 
     // Additional Information
-    @Column
     private String photoUrl; // Optional: URL to practitioner's photo
-
-    @Column
     private String bio; // Optional: Brief biography
-
-    @Column
     private String websiteUrl; // Optional: Link to practitioner's website
 }

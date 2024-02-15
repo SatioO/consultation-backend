@@ -1,4 +1,4 @@
-package com.accion.consultation.constants;
+package com.accion.consultation.enums;
 
 public enum RoleEnum {
     PATIENT("patient"),
