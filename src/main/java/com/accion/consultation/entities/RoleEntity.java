@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -23,5 +24,5 @@ public class RoleEntity {
 
     @ManyToMany(mappedBy = "roles")
     @ToString.Exclude
-    private Set<UserEntity> users;
+    private List<UserEntity> users;
 }
