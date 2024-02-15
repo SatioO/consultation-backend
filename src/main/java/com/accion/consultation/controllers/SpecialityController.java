@@ -1,8 +1,8 @@
 package com.accion.consultation.controllers;
 
-import com.accion.consultation.exceptions.UserNotFoundException;
-import com.accion.consultation.models.dto.speciality.SpecialityDTO;
+import com.accion.consultation.exceptions.SpecialityNotFound;
 import com.accion.consultation.models.dto.speciality.CreateSpecialityRequestDTO;
+import com.accion.consultation.models.dto.speciality.SpecialityDTO;
 import com.accion.consultation.models.dto.speciality.UpdateSpecialityRequestDTO;
 import com.accion.consultation.service.SpecialityService;
 import jakarta.validation.Valid;
@@ -31,7 +31,7 @@ public class SpecialityController {
     public ResponseEntity<SpecialityDTO> findSpecialityById(@PathVariable long specialityId) {
         return specialityService.findSpecialityById(specialityId)
                 .map(ResponseEntity::ok)
-                .orElseThrow(() -> new UserNotFoundException(specialityId));
+                .orElseThrow(() -> new SpecialityNotFound(specialityId));
     }
 
     @PostMapping
