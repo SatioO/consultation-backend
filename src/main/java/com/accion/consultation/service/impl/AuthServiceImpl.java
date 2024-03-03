@@ -1,5 +1,6 @@
 package com.accion.consultation.service.impl;
 
+import com.accion.consultation.entities.RoleEntity;
 import com.accion.consultation.mappers.UserMapper;
 import com.accion.consultation.models.CustomUserDetails;
 import com.accion.consultation.models.dto.NameDTO;
@@ -43,6 +44,7 @@ public class AuthServiceImpl implements AuthService {
             JwtUserResponseDTO jwtUserResponseDTO = new JwtUserResponseDTO();
             jwtUserResponseDTO.setUserId(userDetails.getUserId());
             jwtUserResponseDTO.setName(personName);
+            jwtUserResponseDTO.setRoles(userDetails.getRoles().stream().map(RoleEntity::getName).toList());
             jwtUserResponseDTO.setUsername(userDetails.getUsername());
             jwtUserResponseDTO.setEmail(userDetails.getEmail());
             jwtUserResponseDTO.setStatus(userDetails.getStatus());

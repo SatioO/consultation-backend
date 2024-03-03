@@ -18,6 +18,7 @@ public class UserDTO {
     private NameDTO name;
     private String email;
     private Instant dob;
+    private List<String> roles;
     private AdministrativeSex administrativeSex;
     private MaritalStatus maritalStatus;
     private UserStatus status;

@@ -2,7 +2,6 @@ package com.accion.consultation.mappers;
 
 import com.accion.consultation.entities.PatientEntity;
 import com.accion.consultation.entities.PersonName;
-import com.accion.consultation.entities.UserAddressEntity;
 import com.accion.consultation.models.UserStatus;
 import com.accion.consultation.models.YesOrNoIndicator;
 import com.accion.consultation.models.dto.NameDTO;
@@ -11,8 +10,6 @@ import com.accion.consultation.models.dto.patient.PatientDTO;
 import com.accion.consultation.models.dto.patient.UpdatePatientRequestDTO;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
