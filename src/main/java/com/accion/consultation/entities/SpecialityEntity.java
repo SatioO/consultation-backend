@@ -28,7 +28,7 @@ public class SpecialityEntity {
     @Column(nullable = false)
     private SpecialityCategory category;
 
-    @ManyToMany(mappedBy = "speciality")
+    @ManyToMany(mappedBy = "specialities")
     @ToString.Exclude
     private List<ProviderEntity> provider;
 }

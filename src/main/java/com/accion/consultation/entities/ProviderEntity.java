@@ -1,14 +1,16 @@
 package com.accion.consultation.entities;
 
 import jakarta.persistence.*;
-import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "provider")
-@Builder
+@Data
 public class ProviderEntity extends UserEntity {
     @Column(nullable = false)
     private Long npi;
@@ -19,7 +21,7 @@ public class ProviderEntity extends UserEntity {
     // Professional Information
     @ManyToMany
     @JoinTable(name = "provider_speciality", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "speciality_id"))
-    private List<SpecialityEntity> speciality;
+    private List<SpecialityEntity> specialities;
 
     @Column
     private String licenseNumber;

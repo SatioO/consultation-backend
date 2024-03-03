@@ -33,7 +33,7 @@ public class AdminMapper implements EntityMapper<UserEntity, AdminDTO> {
         entity.setEmail(model.getEmail());
         entity.setDob(model.getDob());
         entity.setAdministrativeSex(model.getAdministrativeSex());
-        entity.setStatus(UserStatus.ACTIVE);
+        entity.setStatus(model.getStatus());
 
         return entity;
     }
