@@ -21,9 +21,9 @@ public class ProviderController {
         this.providerService = providerService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<ProviderDTO>> getProviders() {
-        List<ProviderDTO> foundProviders = providerService.findProviders();
+    @GetMapping("/speciality/{specialityId}")
+    public ResponseEntity<List<ProviderDTO>> getProviders(@PathVariable long specialityId) {
+        List<ProviderDTO> foundProviders = providerService.findProvidersBySpeciality(specialityId);
         return ResponseEntity.status(HttpStatus.OK).body(foundProviders);
     }
 

@@ -37,9 +37,9 @@ public class ProviderServiceImpl implements ProviderService {
     private final SpecialityRepository specialityRepository;
 
     @Override
-    public List<ProviderDTO> findProviders() {
+    public List<ProviderDTO> findProvidersBySpeciality(long specialityId) {
         return this.providerRepository
-                .findByRoles_Name(RoleEnum.PROVIDER.getDescription())
+                .findProvidersBySpeciality(specialityId)
                 .stream().map(providerMapper::toModel)
                 .collect(Collectors.toList());
     }

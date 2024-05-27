@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProviderService {
-    List<ProviderDTO> findProviders();
+    List<ProviderDTO> findProvidersBySpeciality(long specialityId);
 
     Optional<ProviderDTO> findProviderById(long providerId);
 
