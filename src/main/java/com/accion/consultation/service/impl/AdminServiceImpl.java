@@ -1,10 +1,10 @@
 package com.accion.consultation.service.impl;
 
-import com.accion.consultation.enums.RoleEnum;
 import com.accion.consultation.entities.UserEntity;
 import com.accion.consultation.exceptions.RoleNotFoundException;
 import com.accion.consultation.exceptions.UserNotFoundException;
 import com.accion.consultation.mappers.AdminMapper;
+import com.accion.consultation.models.AdministrativeSex;
 import com.accion.consultation.models.UserStatus;
 import com.accion.consultation.models.dto.admin.AdminDTO;
 import com.accion.consultation.models.dto.admin.CreateAdminRequestDTO;
@@ -35,7 +35,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<AdminDTO> findAdmins() {
-        return userRepository.findByRoles_Name(RoleEnum.ADMIN.getDescription())
+        return userRepository.findByRoles_Name(AdministrativeSex.Role.ADMIN.getDescription())
                 .stream()
                 .map(adminMapper::toModel)
                 .collect(Collectors.toList());
@@ -48,7 +48,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public AdminDTO createAdmin(CreateAdminRequestDTO body) {
-        return roleRepository.findByName(RoleEnum.ADMIN.getDescription()).map(role -> {
+        return roleRepository.findByName(AdministrativeSex.Role.ADMIN.getDescription()).map(role -> {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             String encryptedPassword = encoder.encode("helloworld");
 
@@ -59,7 +59,7 @@ public class AdminServiceImpl implements AdminService {
 
             UserEntity savedUser = userRepository.save(user);
             return adminMapper.toModel(savedUser);
-        }).orElseThrow(() -> new RoleNotFoundException(RoleEnum.ADMIN.getDescription()));
+        }).orElseThrow(() -> new RoleNotFoundException(AdministrativeSex.Role.ADMIN.getDescription()));
     }
 
     @Override

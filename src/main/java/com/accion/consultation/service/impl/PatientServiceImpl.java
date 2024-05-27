@@ -1,12 +1,12 @@
 package com.accion.consultation.service.impl;
 
-import com.accion.consultation.enums.RoleEnum;
 import com.accion.consultation.entities.PatientEntity;
 import com.accion.consultation.entities.UserAddressEntity;
 import com.accion.consultation.exceptions.RoleNotFoundException;
 import com.accion.consultation.exceptions.UserNotFoundException;
 import com.accion.consultation.mappers.AddressMapper;
 import com.accion.consultation.mappers.PatientMapper;
+import com.accion.consultation.models.AdministrativeSex;
 import com.accion.consultation.models.UserStatus;
 import com.accion.consultation.models.dto.patient.CreatePatientRequestDTO;
 import com.accion.consultation.models.dto.patient.PatientDTO;
@@ -44,7 +44,7 @@ public class PatientServiceImpl implements PatientService {
 
     public List<PatientDTO> findPatients() {
         return this.patientRepository
-                .findByRoles_Name(RoleEnum.PATIENT.getDescription())
+                .findByRoles_Name(AdministrativeSex.Role.PATIENT.getDescription())
                 .stream().map(patientMapper::toModel)
                 .collect(Collectors.toList());
     }
@@ -54,7 +54,7 @@ public class PatientServiceImpl implements PatientService {
     }
 
     public PatientDTO createPatient(@RequestBody CreatePatientRequestDTO body) {
-        return roleRepository.findByName(RoleEnum.PATIENT.getDescription()).map(role -> {
+        return roleRepository.findByName(AdministrativeSex.Role.PATIENT.getDescription()).map(role -> {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             String encryptedPassword = encoder.encode("helloworld");
 
@@ -72,7 +72,7 @@ public class PatientServiceImpl implements PatientService {
 
             PatientEntity savedPatient = patientRepository.save(patient);
             return patientMapper.toModel(savedPatient);
-        }).orElseThrow(() -> new RoleNotFoundException(RoleEnum.PATIENT.getDescription()));
+        }).orElseThrow(() -> new RoleNotFoundException(AdministrativeSex.Role.PATIENT.getDescription()));
     }
 
     @Transactional
@@ -92,9 +92,6 @@ public class PatientServiceImpl implements PatientService {
     }
 
     public void deletePatient(long patientId) {
-        this.patientRepository.findById(patientId).ifPresent(patient -> {
-            patient.setStatus(UserStatus.INACTIVE);
-            this.patientRepository.save(patient);
-        });
+        this.patientRepository.findById(patientId).ifPresent(this.patientRepository::delete);
     }
 }

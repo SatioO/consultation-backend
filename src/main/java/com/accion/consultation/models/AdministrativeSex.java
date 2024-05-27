@@ -17,4 +17,20 @@ public enum AdministrativeSex {
     public String getDescription() {
         return description;
     }
+
+    public enum Role {
+        PATIENT("patient"),
+        PROVIDER("provider"),
+        ADMIN("admin");
+
+        private final String description;
+
+        Role(String description) {
+            this.description = description;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+    }
 }

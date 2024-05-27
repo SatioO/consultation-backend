@@ -4,11 +4,11 @@ import com.accion.consultation.entities.ProviderEntity;
 import com.accion.consultation.entities.RoleEntity;
 import com.accion.consultation.entities.SpecialityEntity;
 import com.accion.consultation.entities.UserAddressEntity;
-import com.accion.consultation.enums.RoleEnum;
 import com.accion.consultation.exceptions.RoleNotFoundException;
 import com.accion.consultation.exceptions.UserNotFoundException;
 import com.accion.consultation.mappers.AddressMapper;
 import com.accion.consultation.mappers.ProviderMapper;
+import com.accion.consultation.models.AdministrativeSex;
 import com.accion.consultation.models.UserStatus;
 import com.accion.consultation.models.dto.provider.CreateProviderRequestDTO;
 import com.accion.consultation.models.dto.provider.ProviderDTO;
@@ -39,7 +39,7 @@ public class ProviderServiceImpl implements ProviderService {
     @Override
     public List<ProviderDTO> findProviders() {
         return this.providerRepository
-                .findByRoles_Name(RoleEnum.PROVIDER.getDescription())
+                .findByRoles_Name(AdministrativeSex.Role.PROVIDER.getDescription())
                 .stream().map(providerMapper::toModel)
                 .collect(Collectors.toList());
     }
@@ -52,8 +52,8 @@ public class ProviderServiceImpl implements ProviderService {
     @Override
     public ProviderDTO createProvider(CreateProviderRequestDTO body) {
         RoleEntity foundRole = roleRepository
-            .findByName(RoleEnum.PROVIDER.getDescription())
-            .orElseThrow(() -> new RoleNotFoundException(RoleEnum.PROVIDER.getDescription()));
+            .findByName(AdministrativeSex.Role.PROVIDER.getDescription())
+            .orElseThrow(() -> new RoleNotFoundException(AdministrativeSex.Role.PROVIDER.getDescription()));
 
         List<SpecialityEntity> foundSpecialities = specialityRepository.findByIdIn(body.getSpecialities());
 

@@ -1,16 +1,10 @@
 package com.accion.consultation.service;
 
-import java.time.ZonedDateTime;
-import java.util.List;
+import com.accion.consultation.models.dto.appointment.AppointmentDTO;
+import com.accion.consultation.models.dto.appointment.CreateAppointmentRequestDTO;
 
 public interface AppointmentService {
-    List<Void> findAppointmentsByProviderId(long providerId);
-
-    Void getAvailableSlots();
-
-    List<ZonedDateTime> generateSlots(ZonedDateTime date, int gapInMinutes);
-
-    Void createAppointment(Void body);
+    AppointmentDTO createAppointment(CreateAppointmentRequestDTO body);
 
     void deleteAppointment(long appointmentId);
 }

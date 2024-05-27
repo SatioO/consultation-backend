@@ -31,4 +31,7 @@ public class SpecialityEntity {
     @ManyToMany(mappedBy = "specialities")
     @ToString.Exclude
     private List<ProviderEntity> provider;
+
+    @OneToMany(mappedBy = "speciality", cascade = CascadeType.ALL)
+    private List<AppointmentEntity> appointments;
 }
