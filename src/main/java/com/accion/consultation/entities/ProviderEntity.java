@@ -18,11 +18,6 @@ public class ProviderEntity extends UserEntity {
     @Column(nullable = false)
     private String ssn;
 
-    // Professional Information
-    @ManyToMany
-    @JoinTable(name = "provider_speciality", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "speciality_id"))
-    private List<SpecialityEntity> specialities;
-
     @Column
     private String licenseNumber;
 
@@ -44,4 +39,12 @@ public class ProviderEntity extends UserEntity {
 
     @Column
     private String websiteUrl; // Optional: Link to practitioner's website
+
+    // Professional Information
+    @ManyToMany
+    @JoinTable(name = "provider_speciality", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "speciality_id"))
+    private List<SpecialityEntity> specialities;
+
+    @OneToMany(mappedBy = "provider", cascade = CascadeType.ALL)
+    private List<AppointmentEntity> appointments;
 }

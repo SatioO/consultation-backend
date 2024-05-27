@@ -1,13 +1,12 @@
 package com.accion.consultation.entities;
 
 import com.accion.consultation.models.YesOrNoIndicator;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.time.Instant;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -28,5 +27,8 @@ public class PatientEntity extends UserEntity  {
 
     @Column
     private Instant deceased_on;
+
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
+    private List<AppointmentEntity> appointments;
 }
 

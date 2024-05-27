@@ -1,7 +1,6 @@
 package com.accion.consultation.service.impl;
 
 import com.accion.consultation.entities.SpecialityEntity;
-import com.accion.consultation.enums.RoleEnum;
 import com.accion.consultation.exceptions.SpecialityNotFound;
 import com.accion.consultation.mappers.ProviderMapper;
 import com.accion.consultation.mappers.SpecialityMapper;
