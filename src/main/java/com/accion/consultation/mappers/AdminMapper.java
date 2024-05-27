@@ -1,6 +1,7 @@
 package com.accion.consultation.mappers;
 
 import com.accion.consultation.entities.PersonName;
+import com.accion.consultation.entities.RoleEntity;
 import com.accion.consultation.entities.UserEntity;
 import com.accion.consultation.models.UserStatus;
 import com.accion.consultation.models.dto.NameDTO;
@@ -51,6 +52,7 @@ public class AdminMapper implements EntityMapper<UserEntity, AdminDTO> {
         model.setName(personName);
         model.setEmail(entity.getEmail());
         model.setDob(entity.getDob());
+        model.setRoles(entity.getRoles().stream().map(RoleEntity::getName).toList());
         model.setAdministrativeSex(entity.getAdministrativeSex());
         model.setStatus(entity.getStatus());
         model.setCreatedAt(entity.getCreatedAt());

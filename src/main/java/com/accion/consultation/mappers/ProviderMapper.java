@@ -2,22 +2,23 @@ package com.accion.consultation.mappers;
 
 import com.accion.consultation.entities.PersonName;
 import com.accion.consultation.entities.ProviderEntity;
+import com.accion.consultation.entities.RoleEntity;
+import com.accion.consultation.entities.SpecialityEntity;
 import com.accion.consultation.models.UserStatus;
 import com.accion.consultation.models.dto.NameDTO;
 import com.accion.consultation.models.dto.provider.CreateProviderRequestDTO;
 import com.accion.consultation.models.dto.provider.ProviderDTO;
 import com.accion.consultation.models.dto.provider.UpdateProviderRequestDTO;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
 @Component
+@AllArgsConstructor
 public class ProviderMapper implements EntityMapper<ProviderEntity, ProviderDTO> {
     private final AddressMapper addressMapper;
-
-    public ProviderMapper(AddressMapper addressMapper) {
-        this.addressMapper = addressMapper;
-    }
+    private final SpecialityMapper specialityMapper;
 
     @Override
     public ProviderEntity toEntity(ProviderDTO model) {
@@ -80,7 +81,8 @@ public class ProviderMapper implements EntityMapper<ProviderEntity, ProviderDTO>
         model.setLicenseExpirationDate(entity.getLicenseExpirationDate());
         model.setStateLicenseIssued(entity.getStateLicenseIssued());
         model.setAcceptingNewPatients(entity.isAcceptingNewPatients());
-
+        model.setRoles(entity.getRoles().stream().map(RoleEntity::getName).toList());
+        model.setSpecialities(entity.getSpecialities().stream().map(specialityMapper::toModel).toList());
         model.setBio(entity.getBio());
         model.setPhotoUrl(entity.getPhotoUrl());
         model.setWebsiteUrl(entity.getWebsiteUrl());

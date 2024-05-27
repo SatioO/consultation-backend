@@ -9,7 +9,6 @@ import com.accion.consultation.exceptions.RoleNotFoundException;
 import com.accion.consultation.exceptions.UserNotFoundException;
 import com.accion.consultation.mappers.AddressMapper;
 import com.accion.consultation.mappers.ProviderMapper;
-import com.accion.consultation.mappers.SpecialityMapper;
 import com.accion.consultation.models.UserStatus;
 import com.accion.consultation.models.dto.provider.CreateProviderRequestDTO;
 import com.accion.consultation.models.dto.provider.ProviderDTO;
@@ -19,6 +18,7 @@ import com.accion.consultation.repositories.RoleRepository;
 import com.accion.consultation.repositories.SpecialityRepository;
 import com.accion.consultation.repositories.UserAddressRepository;
 import com.accion.consultation.service.ProviderService;
+import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,24 +27,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class ProviderServiceImpl implements ProviderService {
     private final ProviderRepository providerRepository;
     private final ProviderMapper providerMapper;
     private final UserAddressRepository userAddressRepository;
     private final RoleRepository roleRepository;
     private final AddressMapper addressMapper;
-    private final SpecialityMapper specialityMapper;
     private final SpecialityRepository specialityRepository;
-
-    public ProviderServiceImpl(ProviderRepository providerRepository, ProviderMapper providerMapper, UserAddressRepository userAddressRepository, RoleRepository roleRepository, AddressMapper addressMapper, SpecialityMapper specialityMapper, SpecialityRepository specialityRepository) {
-        this.providerRepository = providerRepository;
-        this.providerMapper = providerMapper;
-        this.userAddressRepository = userAddressRepository;
-        this.roleRepository = roleRepository;
-        this.addressMapper = addressMapper;
-        this.specialityMapper = specialityMapper;
-        this.specialityRepository = specialityRepository;
-    }
 
     @Override
     public List<ProviderDTO> findProviders() {
