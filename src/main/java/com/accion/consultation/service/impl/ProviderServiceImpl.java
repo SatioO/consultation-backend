@@ -1,6 +1,7 @@
 package com.accion.consultation.service.impl;
 
 import com.accion.consultation.entities.ProviderEntity;
+import com.accion.consultation.entities.RoleEntity;
 import com.accion.consultation.entities.SpecialityEntity;
 import com.accion.consultation.entities.UserAddressEntity;
 import com.accion.consultation.enums.RoleEnum;
@@ -15,6 +16,7 @@ import com.accion.consultation.models.dto.provider.ProviderDTO;
 import com.accion.consultation.models.dto.provider.UpdateProviderRequestDTO;
 import com.accion.consultation.repositories.ProviderRepository;
 import com.accion.consultation.repositories.RoleRepository;
+import com.accion.consultation.repositories.SpecialityRepository;
 import com.accion.consultation.repositories.UserAddressRepository;
 import com.accion.consultation.service.ProviderService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -32,14 +34,16 @@ public class ProviderServiceImpl implements ProviderService {
     private final RoleRepository roleRepository;
     private final AddressMapper addressMapper;
     private final SpecialityMapper specialityMapper;
+    private final SpecialityRepository specialityRepository;
 
-    public ProviderServiceImpl(ProviderRepository providerRepository, ProviderMapper providerMapper, UserAddressRepository userAddressRepository, RoleRepository roleRepository, AddressMapper addressMapper, SpecialityMapper specialityMapper) {
+    public ProviderServiceImpl(ProviderRepository providerRepository, ProviderMapper providerMapper, UserAddressRepository userAddressRepository, RoleRepository roleRepository, AddressMapper addressMapper, SpecialityMapper specialityMapper, SpecialityRepository specialityRepository) {
         this.providerRepository = providerRepository;
         this.providerMapper = providerMapper;
         this.userAddressRepository = userAddressRepository;
         this.roleRepository = roleRepository;
         this.addressMapper = addressMapper;
         this.specialityMapper = specialityMapper;
+        this.specialityRepository = specialityRepository;
     }
 
     @Override
@@ -57,30 +61,29 @@ public class ProviderServiceImpl implements ProviderService {
 
     @Override
     public ProviderDTO createProvider(CreateProviderRequestDTO body) {
-        return roleRepository.findByName(RoleEnum.PROVIDER.getDescription()).map(role -> {
-            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            String encryptedPassword = encoder.encode("helloworld");
+        RoleEntity foundRole = roleRepository
+            .findByName(RoleEnum.PROVIDER.getDescription())
+            .orElseThrow(() -> new RoleNotFoundException(RoleEnum.PROVIDER.getDescription()));
 
-            ProviderEntity provider = providerMapper.toCreateProviderEntity(body);
-            provider.setPassword(encryptedPassword);
-            provider.setRoles(List.of(role));
+        List<SpecialityEntity> foundSpecialities = specialityRepository.findByIdIn(body.getSpecialities());
 
-            List<SpecialityEntity> specialities = body.getSpecialities()
-                    .stream()
-                    .map(specialityMapper::toEntity)
-                    .toList();
-            provider.setSpecialities(specialities);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String encryptedPassword = encoder.encode("helloworld");
 
-            List<UserAddressEntity> addresses = body.getAddresses()
-                    .stream()
-                    .map(addressMapper::toEntity)
-                    .peek(address -> address.setUser(provider))
-                    .toList();
-            provider.setAddresses(addresses);
+        ProviderEntity provider = providerMapper.toCreateProviderEntity(body);
+        provider.setPassword(encryptedPassword);
+        provider.setRoles(List.of(foundRole));
+        provider.setSpecialities(foundSpecialities);
 
-            ProviderEntity savedProvider = providerRepository.save(provider);
-            return providerMapper.toModel(savedProvider);
-        }).orElseThrow(() -> new RoleNotFoundException(RoleEnum.PROVIDER.getDescription()));
+        List<UserAddressEntity> addresses = body.getAddresses()
+            .stream()
+            .map(addressMapper::toEntity)
+            .peek(address -> address.setUser(provider))
+            .toList();
+        provider.setAddresses(addresses);
+
+        ProviderEntity savedProvider = providerRepository.save(provider);
+        return providerMapper.toModel(savedProvider);
     }
 
     @Override

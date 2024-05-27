@@ -23,7 +23,7 @@ public class CreateProviderRequestDTO {
     private Long npi;
     private String ssn;
 
-    private List<SpecialityDTO> specialities = new ArrayList<>();
+    private List<Long> specialities = new ArrayList<>();
     private String licenseNumber;
     private String stateLicenseIssued;
     private LocalDate licenseExpirationDate;
