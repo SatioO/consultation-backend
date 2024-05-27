@@ -1,7 +1,6 @@
 package com.accion.consultation.service.impl;
 
 import com.accion.consultation.entities.RoleEntity;
-import com.accion.consultation.mappers.UserMapper;
 import com.accion.consultation.models.CustomUserDetails;
 import com.accion.consultation.models.dto.NameDTO;
 import com.accion.consultation.models.dto.auth.AuthRequestDTO;
@@ -9,8 +8,8 @@ import com.accion.consultation.models.dto.auth.JwtResponseDTO;
 import com.accion.consultation.models.dto.auth.JwtUserResponseDTO;
 import com.accion.consultation.service.AuthService;
 import com.accion.consultation.service.JwtService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,13 +18,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class AuthServiceImpl implements AuthService {
-    @Autowired
     private AuthenticationManager authenticationManager;
-    @Autowired
     private JwtService jwtService;
-    @Autowired
-    private UserMapper userMapper;
 
     @Override
     public JwtResponseDTO login(AuthRequestDTO authRequest) {

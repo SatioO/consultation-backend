@@ -33,18 +33,16 @@ public class AppointmentServiceImpl implements AppointmentService {
     public List<ZonedDateTime> generateSlots(ZonedDateTime startDate, int gapInMinutes) {
         List<ZonedDateTime> timeSlots = new ArrayList<>();
 
-        // Normalize the start time to the start of the day in the same time zone
-        ZonedDateTime startOfDay = startDate.truncatedTo(ChronoUnit.DAYS);
-        // End of the day
-        ZonedDateTime endOfDay = startOfDay.plusDays(1).truncatedTo(ChronoUnit.DAYS);
+        // Adjust startDateTime to the nearest previous interval
+        long minutes = startDate.getMinute();
+        long adjustment = minutes % gapInMinutes;
+        ZonedDateTime adjustedStartDateTime = startDate.minusMinutes(adjustment).truncatedTo(ChronoUnit.MINUTES);
 
-        // Add the first slot if it is after the current time
-        if (startDate.isBefore(endOfDay)) {
-            timeSlots.add(startDate);
-        }
+        // End of the day
+        ZonedDateTime endOfDay = adjustedStartDateTime.truncatedTo(ChronoUnit.DAYS).plusDays(1);
 
         // Generate the slots based on the gap
-        ZonedDateTime nextSlot = startDate.plusMinutes(gapInMinutes);
+        ZonedDateTime nextSlot = adjustedStartDateTime;
         while (nextSlot.isBefore(endOfDay)) {
             timeSlots.add(nextSlot);
             nextSlot = nextSlot.plusMinutes(gapInMinutes);
