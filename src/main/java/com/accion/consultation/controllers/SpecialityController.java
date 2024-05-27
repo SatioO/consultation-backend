@@ -1,11 +1,14 @@
 package com.accion.consultation.controllers;
 
+import com.accion.consultation.entities.ProviderEntity;
 import com.accion.consultation.exceptions.SpecialityNotFound;
+import com.accion.consultation.models.dto.provider.ProviderDTO;
 import com.accion.consultation.models.dto.speciality.CreateSpecialityRequestDTO;
 import com.accion.consultation.models.dto.speciality.SpecialityDTO;
 import com.accion.consultation.models.dto.speciality.UpdateSpecialityRequestDTO;
 import com.accion.consultation.service.SpecialityService;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,18 +16,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api/v1/speciality")
+@RequestMapping(path = "/api/v1/specialities")
+@AllArgsConstructor
 public class SpecialityController {
     private final SpecialityService specialityService;
-
-    public SpecialityController(SpecialityService specialityService) {
-        this.specialityService = specialityService;
-    }
 
     @GetMapping
     public ResponseEntity<List<SpecialityDTO>> findSpecialities() {
         List<SpecialityDTO> foundSpecialities = specialityService.findSpecialities();
         return ResponseEntity.status(HttpStatus.OK).body(foundSpecialities);
+    }
+
+    @GetMapping("/{specialityId}/providers")
+    public ResponseEntity<List<ProviderDTO>> findProviders(@PathVariable long specialityId) {
+        List<ProviderDTO> foundProviders = specialityService.findProviders(specialityId);
+        return ResponseEntity.status(HttpStatus.OK).body(foundProviders);
     }
 
     @GetMapping("/{specialityId}")
