@@ -1,13 +1,18 @@
 package com.accion.consultation.service.impl;
 
 import com.accion.consultation.entities.SpecialityEntity;
+import com.accion.consultation.enums.RoleEnum;
 import com.accion.consultation.exceptions.SpecialityNotFound;
+import com.accion.consultation.mappers.ProviderMapper;
 import com.accion.consultation.mappers.SpecialityMapper;
+import com.accion.consultation.models.dto.provider.ProviderDTO;
 import com.accion.consultation.models.dto.speciality.CreateSpecialityRequestDTO;
 import com.accion.consultation.models.dto.speciality.SpecialityDTO;
 import com.accion.consultation.models.dto.speciality.UpdateSpecialityRequestDTO;
+import com.accion.consultation.repositories.ProviderRepository;
 import com.accion.consultation.repositories.SpecialityRepository;
 import com.accion.consultation.service.SpecialityService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,14 +20,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class SpecialityServiceImpl implements SpecialityService {
     private final SpecialityRepository specialityRepository;
+    private final ProviderRepository providerRepository;
     private final SpecialityMapper specialityMapper;
-
-    public SpecialityServiceImpl(SpecialityRepository specialityRepository, SpecialityMapper specialityMapper) {
-        this.specialityRepository = specialityRepository;
-        this.specialityMapper = specialityMapper;
-    }
+    private final ProviderMapper providerMapper;
 
     @Override
     public List<SpecialityDTO> findSpecialities() {
@@ -56,5 +59,13 @@ public class SpecialityServiceImpl implements SpecialityService {
     @Override
     public void deleteSpeciality(long specialityId) {
         this.specialityRepository.findById(specialityId).ifPresent(this.specialityRepository::delete);
+    }
+
+    @Override
+    public List<ProviderDTO> findProviders(long specialityId) {
+        return this.providerRepository
+            .findProvidersBySpeciality(specialityId)
+            .stream().map(providerMapper::toModel)
+            .collect(Collectors.toList());
     }
 }
