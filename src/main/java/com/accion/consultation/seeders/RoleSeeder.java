@@ -7,7 +7,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @Order(value = 1)
@@ -17,16 +19,22 @@ public class RoleSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println("seeding roles");
-        try {
-            List.of("admin", "provider", "patient").forEach(role -> {
-                CreateRoleRequestDTO createRoleRequestDTO = new CreateRoleRequestDTO();
-                createRoleRequestDTO.setName(role);
+        Optional<Boolean> seed = Arrays.stream(args).map(arg -> arg.equals("seed")).findFirst();
 
-                roleService.createRole(createRoleRequestDTO);
-            });
-        } catch (Exception e) {
-            System.out.println("Failed to insert role: " + e.getMessage());
+        if (seed.isPresent()){
+            System.out.println("seeding roles");
+
+            try {
+                List.of("admin", "provider", "patient").forEach(role -> {
+                    CreateRoleRequestDTO createRoleRequestDTO = new CreateRoleRequestDTO();
+                    createRoleRequestDTO.setName(role);
+
+                    roleService.createRole(createRoleRequestDTO);
+                });
+            } catch (Exception e) {
+                System.out.println("Skipping role seeding");
+            }
         }
+
     }
 }

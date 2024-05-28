@@ -8,7 +8,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @Order(value = 2)
@@ -18,38 +20,42 @@ public class SpecialitySeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println("seeding specialities");
-        List<String> behavioral = List.of("Psychiatrists", "Psychologists");
-        List<String> non_behavioral = List.of("Cardiologists", "Dermatologists", "Endocrinologists", "Neurologists", "Oncologists");
-        List<String> therapy = List.of("Physical Therapists", "Occupational Therapists", "Speech-Language Pathologists");
+        Optional<Boolean> seed = Arrays.stream(args).map(arg -> arg.equals("seed")).findFirst();
 
-        try {
-            behavioral.forEach(speciality -> {
-                CreateSpecialityRequestDTO createSpecialityRequestDTO = new CreateSpecialityRequestDTO();
-                createSpecialityRequestDTO.setName(speciality);
-                createSpecialityRequestDTO.setDescription("provider with " + speciality);
-                createSpecialityRequestDTO.setCategory(SpecialityCategory.BEHAVIORAL);
-                specialityService.createSpeciality(createSpecialityRequestDTO);
-            });
+        if (seed.isPresent()) {
+            System.out.println("seeding specialities");
+            List<String> behavioral = List.of("Psychiatrists", "Psychologists");
+            List<String> non_behavioral = List.of("Cardiologists", "Dermatologists", "Endocrinologists", "Neurologists", "Oncologists");
+            List<String> therapy = List.of("Physical Therapists", "Occupational Therapists", "Speech-Language Pathologists");
 
-            non_behavioral.forEach(speciality -> {
-                CreateSpecialityRequestDTO createSpecialityRequestDTO = new CreateSpecialityRequestDTO();
-                createSpecialityRequestDTO.setName(speciality);
-                createSpecialityRequestDTO.setDescription("provider with " + speciality);
-                createSpecialityRequestDTO.setCategory(SpecialityCategory.NON_BEHAVIORAL);
-                specialityService.createSpeciality(createSpecialityRequestDTO);
-            });
+            try {
+                behavioral.forEach(speciality -> {
+                    CreateSpecialityRequestDTO createSpecialityRequestDTO = new CreateSpecialityRequestDTO();
+                    createSpecialityRequestDTO.setName(speciality);
+                    createSpecialityRequestDTO.setDescription("provider with " + speciality);
+                    createSpecialityRequestDTO.setCategory(SpecialityCategory.BEHAVIORAL);
+                    specialityService.createSpeciality(createSpecialityRequestDTO);
+                });
 
-            therapy.forEach(speciality -> {
-                CreateSpecialityRequestDTO createSpecialityRequestDTO = new CreateSpecialityRequestDTO();
-                createSpecialityRequestDTO.setName(speciality);
-                createSpecialityRequestDTO.setDescription("provider with " + speciality);
-                createSpecialityRequestDTO.setCategory(SpecialityCategory.THERAPY);
+                non_behavioral.forEach(speciality -> {
+                    CreateSpecialityRequestDTO createSpecialityRequestDTO = new CreateSpecialityRequestDTO();
+                    createSpecialityRequestDTO.setName(speciality);
+                    createSpecialityRequestDTO.setDescription("provider with " + speciality);
+                    createSpecialityRequestDTO.setCategory(SpecialityCategory.NON_BEHAVIORAL);
+                    specialityService.createSpeciality(createSpecialityRequestDTO);
+                });
 
-                specialityService.createSpeciality(createSpecialityRequestDTO);
-            });
-        } catch(Exception e) {
-            System.out.println("Failed to insert specialities: " + e.getMessage());
+                therapy.forEach(speciality -> {
+                    CreateSpecialityRequestDTO createSpecialityRequestDTO = new CreateSpecialityRequestDTO();
+                    createSpecialityRequestDTO.setName(speciality);
+                    createSpecialityRequestDTO.setDescription("provider with " + speciality);
+                    createSpecialityRequestDTO.setCategory(SpecialityCategory.THERAPY);
+
+                    specialityService.createSpeciality(createSpecialityRequestDTO);
+                });
+            } catch (Exception e) {
+                System.out.println("Skipping specialities seeding");
+            }
         }
     }
 }
