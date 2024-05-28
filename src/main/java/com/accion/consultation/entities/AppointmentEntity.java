@@ -2,19 +2,17 @@ package com.accion.consultation.entities;
 
 import com.accion.consultation.models.AppointmentStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.ZonedDateTime;
 
 @Entity
-@Table(name = "appointment")
 @Builder
-@Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Table(name = "appointment")
+@EqualsAndHashCode(callSuper = false)
 public class AppointmentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
