@@ -24,16 +24,12 @@ public class RoleSeeder implements CommandLineRunner {
         if (seed.isPresent()){
             System.out.println("seeding roles");
 
-            try {
-                List.of("admin", "provider", "patient").forEach(role -> {
-                    CreateRoleRequestDTO createRoleRequestDTO = new CreateRoleRequestDTO();
-                    createRoleRequestDTO.setName(role);
+            List.of("admin", "provider", "patient").forEach(role -> {
+                CreateRoleRequestDTO createRoleRequestDTO = new CreateRoleRequestDTO();
+                createRoleRequestDTO.setName(role);
 
-                    roleService.createRole(createRoleRequestDTO);
-                });
-            } catch (Exception e) {
-                System.out.println("Skipping role seeding");
-            }
+                roleService.createRole(createRoleRequestDTO);
+            });
         }
 
     }
