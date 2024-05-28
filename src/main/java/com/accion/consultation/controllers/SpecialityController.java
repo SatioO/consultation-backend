@@ -2,6 +2,7 @@ package com.accion.consultation.controllers;
 
 import com.accion.consultation.entities.ProviderEntity;
 import com.accion.consultation.exceptions.SpecialityNotFound;
+import com.accion.consultation.models.SpecialityCategory;
 import com.accion.consultation.models.dto.provider.ProviderDTO;
 import com.accion.consultation.models.dto.speciality.CreateSpecialityRequestDTO;
 import com.accion.consultation.models.dto.speciality.SpecialityDTO;
@@ -20,6 +21,11 @@ import java.util.List;
 @AllArgsConstructor
 public class SpecialityController {
     private final SpecialityService specialityService;
+
+    @GetMapping("/categories")
+    public ResponseEntity<SpecialityCategory[]> getCategories() {
+        return ResponseEntity.ok().body(SpecialityCategory.values());
+    }
 
     @GetMapping
     public ResponseEntity<List<SpecialityDTO>> findSpecialities() {

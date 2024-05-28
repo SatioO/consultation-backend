@@ -49,6 +49,7 @@ public class SecurityConfig  {
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "api/v1/specialities/*/providers").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/specialities").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/specialities/categories").permitAll()
                         .requestMatchers(HttpMethod.POST, "api/v1/appointments").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

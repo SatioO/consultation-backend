@@ -38,7 +38,7 @@ public class ProviderController {
     }
 
     @GetMapping("/{providerId}")
-    public ResponseEntity<ProviderDTO> getProvider(@PathVariable long providerId) {
+    public ResponseEntity<ProviderDTO> getProviderById(@PathVariable long providerId) {
         return providerService.findProviderById(providerId)
                 .map(ResponseEntity::ok)
                 .orElseThrow(() -> new UserNotFoundException(providerId));
