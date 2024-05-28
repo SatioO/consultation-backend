@@ -28,34 +28,31 @@ public class SpecialitySeeder implements CommandLineRunner {
             List<String> non_behavioral = List.of("Cardiologists", "Dermatologists", "Endocrinologists", "Neurologists", "Oncologists");
             List<String> therapy = List.of("Physical Therapists", "Occupational Therapists", "Speech-Language Pathologists");
 
-            try {
-                behavioral.forEach(speciality -> {
-                    CreateSpecialityRequestDTO createSpecialityRequestDTO = new CreateSpecialityRequestDTO();
-                    createSpecialityRequestDTO.setName(speciality);
-                    createSpecialityRequestDTO.setDescription("provider with " + speciality);
-                    createSpecialityRequestDTO.setCategory(SpecialityCategory.BEHAVIORAL);
-                    specialityService.createSpeciality(createSpecialityRequestDTO);
-                });
+            behavioral.forEach(speciality -> {
+                CreateSpecialityRequestDTO createSpecialityRequestDTO = new CreateSpecialityRequestDTO();
+                createSpecialityRequestDTO.setName(speciality);
+                createSpecialityRequestDTO.setDescription("provider with " + speciality);
+                createSpecialityRequestDTO.setCategory(SpecialityCategory.BEHAVIORAL);
+                specialityService.createSpeciality(createSpecialityRequestDTO);
+            });
 
-                non_behavioral.forEach(speciality -> {
-                    CreateSpecialityRequestDTO createSpecialityRequestDTO = new CreateSpecialityRequestDTO();
-                    createSpecialityRequestDTO.setName(speciality);
-                    createSpecialityRequestDTO.setDescription("provider with " + speciality);
-                    createSpecialityRequestDTO.setCategory(SpecialityCategory.NON_BEHAVIORAL);
-                    specialityService.createSpeciality(createSpecialityRequestDTO);
-                });
+            non_behavioral.forEach(speciality -> {
+                CreateSpecialityRequestDTO createSpecialityRequestDTO = new CreateSpecialityRequestDTO();
+                createSpecialityRequestDTO.setName(speciality);
+                createSpecialityRequestDTO.setDescription("provider with " + speciality);
+                createSpecialityRequestDTO.setCategory(SpecialityCategory.NON_BEHAVIORAL);
+                specialityService.createSpeciality(createSpecialityRequestDTO);
+            });
 
-                therapy.forEach(speciality -> {
-                    CreateSpecialityRequestDTO createSpecialityRequestDTO = new CreateSpecialityRequestDTO();
-                    createSpecialityRequestDTO.setName(speciality);
-                    createSpecialityRequestDTO.setDescription("provider with " + speciality);
-                    createSpecialityRequestDTO.setCategory(SpecialityCategory.THERAPY);
+            therapy.forEach(speciality -> {
+                CreateSpecialityRequestDTO createSpecialityRequestDTO = new CreateSpecialityRequestDTO();
+                createSpecialityRequestDTO.setName(speciality);
+                createSpecialityRequestDTO.setDescription("provider with " + speciality);
+                createSpecialityRequestDTO.setCategory(SpecialityCategory.THERAPY);
 
-                    specialityService.createSpeciality(createSpecialityRequestDTO);
-                });
-            } catch (Exception e) {
-                System.out.println("Skipping specialities seeding");
-            }
+                specialityService.createSpeciality(createSpecialityRequestDTO);
+            });
+
         }
     }
 }
