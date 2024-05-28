@@ -45,13 +45,11 @@ public class SecurityConfig  {
             .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                    .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
-                        .requestMatchers(
-                            "/api/v1/auth/login",
-                            "/api/v1/specialities",
-                            "api/v1/specialities/*/providers"
-                        )
-                        .permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.GET, "api/v1/specialities/*/providers").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/specialities").permitAll()
+                        .requestMatchers(HttpMethod.POST, "api/v1/appointments").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())

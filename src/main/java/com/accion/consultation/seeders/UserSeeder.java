@@ -15,7 +15,9 @@ import org.springframework.stereotype.Component;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @Order(value = 3)
@@ -26,8 +28,12 @@ public class UserSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        this.seedAdmin();
-        this.seedProvider();
+        Optional<Boolean> seed = Arrays.stream(args).map(arg -> arg.equals("seed")).findFirst();
+
+        if (seed.isPresent()){
+            this.seedAdmin();
+            this.seedProvider();
+        }
     }
 
     private void seedAdmin() {
@@ -44,7 +50,7 @@ public class UserSeeder implements CommandLineRunner {
 
             this.adminService.createAdmin(createAdminRequestDTO);
         } catch (Exception e) {
-            System.out.println("Failed to insert admin: " + e.getMessage());
+            System.out.println("Skipping admin seeding");
         }
     }
 
@@ -109,7 +115,7 @@ public class UserSeeder implements CommandLineRunner {
             provider5.setSpecialities(List.of(1L));
             this.providerService.createProvider(provider5);
         } catch (Exception e) {
-            System.out.println("Failed to insert provider: " + e.getMessage());
+            System.out.println("Skipping providers seeding");
         }
     }
 }
