@@ -64,6 +64,7 @@ public class UserSeeder implements CommandLineRunner {
         provider1.setMaritalStatus(MaritalStatus.M);
         provider1.setNpi(1003810581L);
         provider1.setSsn("8005507691");
+        provider1.setSlotInMinutes(15);
         provider1.setSpecialities(List.of(1L));
         this.providerService.createProvider(provider1);
 
@@ -75,6 +76,7 @@ public class UserSeeder implements CommandLineRunner {
         provider2.setMaritalStatus(MaritalStatus.M);
         provider2.setNpi(1003810582L);
         provider2.setSsn("9005507692");
+        provider2.setSlotInMinutes(15);
         provider2.setSpecialities(List.of(2L));
         this.providerService.createProvider(provider2);
 
@@ -86,6 +88,7 @@ public class UserSeeder implements CommandLineRunner {
         provider3.setMaritalStatus(MaritalStatus.D);
         provider3.setNpi(1003810584L);
         provider3.setSsn("8005507694");
+        provider3.setSlotInMinutes(15);
         provider3.setSpecialities(List.of(3L));
         this.providerService.createProvider(provider3);
 
@@ -97,6 +100,7 @@ public class UserSeeder implements CommandLineRunner {
         provider4.setMaritalStatus(MaritalStatus.M);
         provider4.setNpi(1003810585L);
         provider4.setSsn("8005507695");
+        provider4.setSlotInMinutes(15);
         provider4.setSpecialities(List.of(4L));
         this.providerService.createProvider(provider4);
 
@@ -108,6 +112,7 @@ public class UserSeeder implements CommandLineRunner {
         provider5.setMaritalStatus(MaritalStatus.S);
         provider5.setNpi(1003810586L);
         provider5.setSsn("8005507696");
+        provider5.setSlotInMinutes(15);
         provider5.setSpecialities(List.of(1L));
         this.providerService.createProvider(provider5);
 

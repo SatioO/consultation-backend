@@ -18,6 +18,7 @@ public class UpdateProviderRequestDTO {
     private Instant dob;
     private AdministrativeSex administrativeSex;
     private MaritalStatus maritalStatus;
+    private int slotInMinutes = 15;
 
     private List<AddressDTO> addresses = new ArrayList<>();
     private Long npi;

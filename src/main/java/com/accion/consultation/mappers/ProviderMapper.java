@@ -35,6 +35,7 @@ public class ProviderMapper implements EntityMapper<ProviderEntity, ProviderDTO>
         entity.setDob(model.getDob());
         entity.setAdministrativeSex(model.getAdministrativeSex());
         entity.setMaritalStatus(model.getMaritalStatus());
+        entity.setSlotInMinutes(model.getSlotInMinutes());
 
         entity.setSsn(model.getSsn());
         entity.setNpi(model.getNpi());
@@ -111,6 +112,7 @@ public class ProviderMapper implements EntityMapper<ProviderEntity, ProviderDTO>
         entity.setDob(model.getDob());
         entity.setAdministrativeSex(model.getAdministrativeSex());
         entity.setMaritalStatus(model.getMaritalStatus());
+        entity.setSlotInMinutes(model.getSlotInMinutes());
 
         entity.setSsn(model.getSsn());
         entity.setNpi(model.getNpi());
@@ -139,6 +141,7 @@ public class ProviderMapper implements EntityMapper<ProviderEntity, ProviderDTO>
         entity.setDob(model.getDob());
         entity.setAdministrativeSex(model.getAdministrativeSex());
         entity.setMaritalStatus(model.getMaritalStatus());
+        entity.setSlotInMinutes(model.getSlotInMinutes());
 
         entity.setSsn(model.getSsn());
         entity.setNpi(model.getNpi());

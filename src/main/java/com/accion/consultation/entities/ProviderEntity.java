@@ -41,6 +41,9 @@ public class ProviderEntity extends UserEntity {
     @Column
     private String websiteUrl; // Optional: Link to practitioner's website
 
+    @Column
+    private int slotInMinutes;
+
     // Professional Information
     @ManyToMany
     @JoinTable(name = "provider_speciality", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "speciality_id"))
