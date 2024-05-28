@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
@@ -43,8 +44,8 @@ public class ProviderEntity extends UserEntity {
     // Professional Information
     @ManyToMany
     @JoinTable(name = "provider_speciality", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "speciality_id"))
-    private List<SpecialityEntity> specialities;
+    private List<SpecialityEntity> specialities = new ArrayList<>();
 
     @OneToMany(mappedBy = "provider", cascade = CascadeType.ALL)
-    private List<AppointmentEntity> appointments;
+    private List<AppointmentEntity> appointments = new ArrayList<>();
 }

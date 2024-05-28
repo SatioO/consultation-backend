@@ -20,11 +20,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-
 @Service
 @AllArgsConstructor
 public class AppointmentServiceImpl implements AppointmentService {
@@ -57,26 +52,5 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public void deleteAppointment(long appointmentId) {
         this.appointmentRepository.findById(appointmentId).ifPresent(this.appointmentRepository::delete);
-    }
-
-    public List<ZonedDateTime> generateSlots(ZonedDateTime startDate, int gapInMinutes) {
-        List<ZonedDateTime> timeSlots = new ArrayList<>();
-
-        // Adjust startDateTime to the nearest previous interval
-        long minutes = startDate.getMinute();
-        long adjustment = minutes % gapInMinutes;
-        ZonedDateTime adjustedStartTime = startDate.minusMinutes(adjustment).truncatedTo(ChronoUnit.MINUTES);
-
-        // End of the day
-        ZonedDateTime endOfDay = adjustedStartTime.truncatedTo(ChronoUnit.DAYS).plusDays(1);
-
-        // Generate the slots based on the gap
-        ZonedDateTime nextSlot = adjustedStartTime;
-        while (nextSlot.isBefore(endOfDay)) {
-            timeSlots.add(nextSlot);
-            nextSlot = nextSlot.plusMinutes(gapInMinutes);
-        }
-
-        return timeSlots;
     }
 }

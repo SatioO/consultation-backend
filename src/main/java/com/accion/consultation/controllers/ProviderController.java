@@ -1,6 +1,7 @@
 package com.accion.consultation.controllers;
 
 import com.accion.consultation.exceptions.UserNotFoundException;
+import com.accion.consultation.models.dto.appointment.AppointmentSlotDTO;
 import com.accion.consultation.models.dto.provider.ProviderDTO;
 import com.accion.consultation.models.dto.provider.CreateProviderRequestDTO;
 import com.accion.consultation.models.dto.provider.UpdateProviderRequestDTO;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @RestController
@@ -25,6 +27,14 @@ public class ProviderController {
     public ResponseEntity<List<ProviderDTO>> getProviders() {
         List<ProviderDTO> foundProviders = providerService.findProviders();
         return ResponseEntity.status(HttpStatus.OK).body(foundProviders);
+    }
+
+    @GetMapping("{providerId}/slots")
+    public ResponseEntity<List<AppointmentSlotDTO>> getAvailableSlots(
+        @PathVariable("providerId") Long providerId,
+        @RequestParam(value = "date") ZonedDateTime date) {
+        List<AppointmentSlotDTO> availableSlots = providerService.getAvailableSlots(providerId, date);
+        return ResponseEntity.ok().body(availableSlots);
     }
 
     @GetMapping("/{providerId}")

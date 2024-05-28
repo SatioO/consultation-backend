@@ -18,11 +18,15 @@ public class RoleSeeder implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         System.out.println("seeding roles");
-        List.of("admin", "provider", "patient").forEach(role -> {
-            CreateRoleRequestDTO createRoleRequestDTO = new CreateRoleRequestDTO();
-            createRoleRequestDTO.setName(role);
+        try {
+            List.of("admin", "provider", "patient").forEach(role -> {
+                CreateRoleRequestDTO createRoleRequestDTO = new CreateRoleRequestDTO();
+                createRoleRequestDTO.setName(role);
 
-            roleService.createRole(createRoleRequestDTO);
-        });
+                roleService.createRole(createRoleRequestDTO);
+            });
+        } catch (Exception e) {
+            System.out.println("Failed to insert role: " + e.getMessage());
+        }
     }
 }
