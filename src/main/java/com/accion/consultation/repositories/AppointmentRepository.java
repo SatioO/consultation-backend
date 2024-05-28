@@ -17,4 +17,7 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
         @Param("providerId") long providerId,
         @Param("startDate") ZonedDateTime startDate,
         @Param("endDate") ZonedDateTime endDate);
+
+    @Query(value= "SELECT * FROM appointment ap WHERE ap.provider_id = :providerId AND ap.date_time = :date", nativeQuery = true)
+    Optional<AppointmentEntity> findAppointmentSlot(@Param("providerId") long providerId, @Param("date") ZonedDateTime date);
 }
