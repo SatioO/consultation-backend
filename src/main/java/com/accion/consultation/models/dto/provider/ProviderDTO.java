@@ -13,6 +13,7 @@ import java.util.List;
 public class ProviderDTO extends UserDTO {
     private Long npi;
     private String ssn;
+    private int slotInMinutes = 15;
 
     private List<SpecialityDTO> specialities;
     private String licenseNumber;

@@ -22,6 +22,7 @@ public class CreateProviderRequestDTO {
     private List<AddressDTO> addresses = new ArrayList<>();
     private Long npi;
     private String ssn;
+    private int slotInMinutes = 15;
 
     private List<Long> specialities = new ArrayList<>();
     private String licenseNumber;

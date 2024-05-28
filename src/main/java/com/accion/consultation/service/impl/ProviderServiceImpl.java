@@ -45,12 +45,14 @@ public class ProviderServiceImpl implements ProviderService {
 
     @Override
     public List<AppointmentSlotDTO> getAvailableSlots(Long providerId, ZonedDateTime date) {
+        ProviderEntity foundProvider = this.providerRepository.findById(providerId).orElseThrow(() -> new UserNotFoundException(providerId));
+
         //  Start of the day
         ZonedDateTime startOfDay = date.truncatedTo(ChronoUnit.DAYS);
         // End of the day
         ZonedDateTime endOfDay = startOfDay.truncatedTo(ChronoUnit.DAYS).plusDays(1);
 
-        List<AppointmentSlotDTO> slots = this.generateSlots(startOfDay, 15);
+        List<AppointmentSlotDTO> slots = this.generateSlots(startOfDay, foundProvider.getSlotInMinutes());
 
         List<AppointmentEntity> appointments = appointmentRepository.findAppointmentsByProviderId(providerId, startOfDay, endOfDay);
 

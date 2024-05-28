@@ -45,7 +45,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         ZonedDateTime startDate = body.getDateTime();
         long minutes = startDate.getMinute();
-        long adjustment = minutes % 15;
+        long adjustment = minutes % foundProvider.getSlotInMinutes();
         ZonedDateTime adjustedStartDate = startDate.minusMinutes(adjustment).truncatedTo(ChronoUnit.MINUTES);
 
         Optional<AppointmentEntity> appointmentSlot = appointmentRepository.findAppointmentSlot(foundProvider.getUserId(), adjustedStartDate);
