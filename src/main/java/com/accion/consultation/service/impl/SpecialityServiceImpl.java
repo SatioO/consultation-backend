@@ -4,6 +4,7 @@ import com.accion.consultation.entities.SpecialityEntity;
 import com.accion.consultation.exceptions.SpecialityNotFound;
 import com.accion.consultation.mappers.ProviderMapper;
 import com.accion.consultation.mappers.SpecialityMapper;
+import com.accion.consultation.models.SpecialityCategory;
 import com.accion.consultation.models.dto.provider.ProviderDTO;
 import com.accion.consultation.models.dto.speciality.CreateSpecialityRequestDTO;
 import com.accion.consultation.models.dto.speciality.SpecialityDTO;
@@ -14,6 +15,7 @@ import com.accion.consultation.service.SpecialityService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,8 +29,16 @@ public class SpecialityServiceImpl implements SpecialityService {
     private final ProviderMapper providerMapper;
 
     @Override
-    public List<SpecialityDTO> findSpecialities() {
-        return specialityRepository.findAll()
+    public List<SpecialityDTO> findSpecialities(SpecialityCategory category) {
+        List<SpecialityEntity> specialities;
+
+        if(category != null) {
+            specialities = specialityRepository.findByCategory(category);
+        } else {
+            specialities = specialityRepository.findAll();
+        }
+
+        return specialities
                 .stream()
                 .map(specialityMapper::toModel)
                 .collect(Collectors.toList());

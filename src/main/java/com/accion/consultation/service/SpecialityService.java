@@ -1,5 +1,6 @@
 package com.accion.consultation.service;
 
+import com.accion.consultation.models.SpecialityCategory;
 import com.accion.consultation.models.dto.provider.ProviderDTO;
 import com.accion.consultation.models.dto.speciality.SpecialityDTO;
 import com.accion.consultation.models.dto.speciality.CreateSpecialityRequestDTO;
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface SpecialityService {
-    List<SpecialityDTO> findSpecialities();
+    List<SpecialityDTO> findSpecialities(SpecialityCategory category);
 
     Optional<SpecialityDTO> findSpecialityById(long specialityId);
 
