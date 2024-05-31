@@ -28,8 +28,8 @@ public class SpecialityController {
     }
 
     @GetMapping
-    public ResponseEntity<List<SpecialityDTO>> findSpecialities() {
-        List<SpecialityDTO> foundSpecialities = specialityService.findSpecialities();
+    public ResponseEntity<List<SpecialityDTO>> findSpecialities(@RequestParam(value = "category", required = false) SpecialityCategory category) {
+        List<SpecialityDTO> foundSpecialities = specialityService.findSpecialities(category);
         return ResponseEntity.status(HttpStatus.OK).body(foundSpecialities);
     }
 
