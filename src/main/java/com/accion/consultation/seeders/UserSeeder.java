@@ -66,6 +66,7 @@ public class UserSeeder implements CommandLineRunner {
         provider1.setSsn("8005507691");
         provider1.setSlotInMinutes(15);
         provider1.setSpecialities(List.of(1L));
+        provider1.setTimezone("Asia/Kolkata");
         this.providerService.createProvider(provider1);
 
         CreateProviderRequestDTO provider2 = new CreateProviderRequestDTO();
@@ -78,6 +79,7 @@ public class UserSeeder implements CommandLineRunner {
         provider2.setSsn("9005507692");
         provider2.setSlotInMinutes(15);
         provider2.setSpecialities(List.of(2L));
+        provider2.setTimezone("Asia/Kolkata");
         this.providerService.createProvider(provider2);
 
         CreateProviderRequestDTO provider3 = new CreateProviderRequestDTO();
@@ -90,6 +92,7 @@ public class UserSeeder implements CommandLineRunner {
         provider3.setSsn("8005507694");
         provider3.setSlotInMinutes(15);
         provider3.setSpecialities(List.of(3L));
+        provider3.setTimezone("Asia/Kolkata");
         this.providerService.createProvider(provider3);
 
         CreateProviderRequestDTO provider4 = new CreateProviderRequestDTO();
@@ -102,6 +105,7 @@ public class UserSeeder implements CommandLineRunner {
         provider4.setSsn("8005507695");
         provider4.setSlotInMinutes(15);
         provider4.setSpecialities(List.of(4L));
+        provider4.setTimezone("Asia/Kolkata");
         this.providerService.createProvider(provider4);
 
         CreateProviderRequestDTO provider5 = new CreateProviderRequestDTO();
@@ -114,6 +118,7 @@ public class UserSeeder implements CommandLineRunner {
         provider5.setSsn("8005507696");
         provider5.setSlotInMinutes(15);
         provider5.setSpecialities(List.of(1L));
+        provider5.setTimezone("Asia/Kolkata");
         this.providerService.createProvider(provider5);
 
     }

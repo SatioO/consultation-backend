@@ -6,11 +6,15 @@ import com.accion.consultation.models.dto.provider.ProviderDTO;
 import com.accion.consultation.models.dto.provider.CreateProviderRequestDTO;
 import com.accion.consultation.models.dto.provider.UpdateProviderRequestDTO;
 import com.accion.consultation.service.ProviderService;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -32,7 +36,7 @@ public class ProviderController {
     @GetMapping("{providerId}/slots")
     public ResponseEntity<List<AppointmentSlotDTO>> getAvailableSlots(
         @PathVariable("providerId") Long providerId,
-        @RequestParam(value = "date") ZonedDateTime date) {
+        @RequestParam(value = "date") Instant date) {
         List<AppointmentSlotDTO> availableSlots = providerService.getAvailableSlots(providerId, date);
         return ResponseEntity.ok().body(availableSlots);
     }

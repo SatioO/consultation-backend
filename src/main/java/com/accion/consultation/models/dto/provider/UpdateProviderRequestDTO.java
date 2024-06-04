@@ -19,6 +19,7 @@ public class UpdateProviderRequestDTO {
     private AdministrativeSex administrativeSex;
     private MaritalStatus maritalStatus;
     private int slotInMinutes = 15;
+    private String timezone;
 
     private List<AddressDTO> addresses = new ArrayList<>();
     private Long npi;

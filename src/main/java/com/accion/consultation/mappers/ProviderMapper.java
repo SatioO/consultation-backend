@@ -36,6 +36,7 @@ public class ProviderMapper implements EntityMapper<ProviderEntity, ProviderDTO>
         entity.setAdministrativeSex(model.getAdministrativeSex());
         entity.setMaritalStatus(model.getMaritalStatus());
         entity.setSlotInMinutes(model.getSlotInMinutes());
+        entity.setTimezone(model.getTimezone());
 
         entity.setSsn(model.getSsn());
         entity.setNpi(model.getNpi());
@@ -43,6 +44,7 @@ public class ProviderMapper implements EntityMapper<ProviderEntity, ProviderDTO>
         entity.setLicenseExpirationDate(model.getLicenseExpirationDate());
         entity.setStateLicenseIssued(model.getStateLicenseIssued());
         entity.setAcceptingNewPatients(model.isAcceptingNewPatients());
+        entity.setTimezone(model.getTimezone());
 
         entity.setBio(model.getBio());
         entity.setPhotoUrl(model.getPhotoUrl());
@@ -75,6 +77,7 @@ public class ProviderMapper implements EntityMapper<ProviderEntity, ProviderDTO>
         model.setDob(entity.getDob());
         model.setAdministrativeSex(entity.getAdministrativeSex());
         model.setMaritalStatus(entity.getMaritalStatus());
+        model.setTimezone(entity.getTimezone());
 
         model.setSsn(entity.getSsn());
         model.setNpi(entity.getNpi());
@@ -113,6 +116,7 @@ public class ProviderMapper implements EntityMapper<ProviderEntity, ProviderDTO>
         entity.setAdministrativeSex(model.getAdministrativeSex());
         entity.setMaritalStatus(model.getMaritalStatus());
         entity.setSlotInMinutes(model.getSlotInMinutes());
+        entity.setTimezone(model.getTimezone());
 
         entity.setSsn(model.getSsn());
         entity.setNpi(model.getNpi());
@@ -142,6 +146,7 @@ public class ProviderMapper implements EntityMapper<ProviderEntity, ProviderDTO>
         entity.setAdministrativeSex(model.getAdministrativeSex());
         entity.setMaritalStatus(model.getMaritalStatus());
         entity.setSlotInMinutes(model.getSlotInMinutes());
+        entity.setTimezone(model.getTimezone());
 
         entity.setSsn(model.getSsn());
         entity.setNpi(model.getNpi());
