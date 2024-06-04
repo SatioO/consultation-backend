@@ -51,7 +51,7 @@ public class SecurityConfig  {
                     .requestMatchers(HttpMethod.GET, "/api/v1/specialities/categories").permitAll()
                     .requestMatchers(HttpMethod.GET, "api/v1/specialities/*/providers").permitAll()
                     .requestMatchers(HttpMethod.GET, "api/v1/providers/*/slots").permitAll()
-                    .requestMatchers(HttpMethod.POST, "api/v1/public/appointments").permitAll()
+                    .requestMatchers(HttpMethod.POST, "api/v1/appointments").permitAll()
                     .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())

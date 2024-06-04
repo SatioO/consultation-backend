@@ -1,12 +1,11 @@
 package com.accion.consultation.models.dto.appointment;
 
 import lombok.Data;
-
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 @Data
 public class AppointmentSlotDTO {
-    private ZonedDateTime startDateTime;
-    private ZonedDateTime endDateTime;
+    private LocalDateTime startDateTime;
+    private LocalDateTime endDateTime;
     private boolean isAvailable;
 }

@@ -23,6 +23,7 @@ public class CreateProviderRequestDTO {
     private Long npi;
     private String ssn;
     private int slotInMinutes = 15;
+    private String timezone;
 
     private List<Long> specialities = new ArrayList<>();
     private String licenseNumber;

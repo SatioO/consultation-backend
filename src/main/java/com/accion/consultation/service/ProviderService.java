@@ -8,6 +8,7 @@ import com.accion.consultation.models.dto.provider.CreateProviderRequestDTO;
 import com.accion.consultation.models.dto.provider.ProviderDTO;
 import com.accion.consultation.models.dto.provider.UpdateProviderRequestDTO;
 
+import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +16,7 @@ import java.util.Optional;
 public interface ProviderService {
     List<ProviderDTO> findProviders();
 
-    List<AppointmentSlotDTO> getAvailableSlots(Long providerId, ZonedDateTime date);
+    List<AppointmentSlotDTO> getAvailableSlots(Long providerId, Instant date);
 
     Optional<ProviderDTO> findProviderById(long providerId);
 

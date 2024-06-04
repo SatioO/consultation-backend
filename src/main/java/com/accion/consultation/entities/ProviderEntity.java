@@ -41,8 +41,11 @@ public class ProviderEntity extends UserEntity {
     @Column
     private String websiteUrl; // Optional: Link to practitioner's website
 
-    @Column
+    @Column(nullable = false)
     private int slotInMinutes;
+
+    @Column(nullable = false)
+    private String timezone;
 
     // Professional Information
     @ManyToMany
