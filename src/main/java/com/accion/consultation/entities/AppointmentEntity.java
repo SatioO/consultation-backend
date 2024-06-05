@@ -20,7 +20,7 @@ public class AppointmentEntity {
     private Long id;
 
     @Column(nullable = false)
-    private LocalDateTime dateTime;
+    private ZonedDateTime dateTime;
 
     @Column(nullable = false)
     private AppointmentStatus status;

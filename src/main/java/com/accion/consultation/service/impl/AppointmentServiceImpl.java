@@ -23,6 +23,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
@@ -43,7 +45,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         SpecialityEntity foundSpeciality = specialityRepository.findById(body.getSpecialityId()).orElseThrow(() -> new SpecialityNotFound(body.getSpecialityId()));
         ProviderEntity foundProvider = providerRepository.findById(body.getProviderId()).orElseThrow(() -> new UserNotFoundException(body.getProviderId()));
 
-        LocalDateTime startDate = body.getDateTime();
+        LocalDateTime startDate = body.getDateTime().toLocalDateTime();
         long minutes = startDate.getMinute();
         long adjustment = minutes % foundProvider.getSlotInMinutes();
         LocalDateTime adjustedStartDate = startDate.minusMinutes(adjustment).truncatedTo(ChronoUnit.MINUTES);
