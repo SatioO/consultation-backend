@@ -4,6 +4,7 @@ import com.accion.consultation.models.AppointmentStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 @Entity
@@ -19,7 +20,7 @@ public class AppointmentEntity {
     private Long id;
 
     @Column(nullable = false)
-    private ZonedDateTime dateTime;
+    private LocalDateTime dateTime;
 
     @Column(nullable = false)
     private AppointmentStatus status;

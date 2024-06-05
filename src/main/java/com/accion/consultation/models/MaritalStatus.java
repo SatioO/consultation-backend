@@ -2,7 +2,7 @@ package com.accion.consultation.models;
 
 public enum MaritalStatus {
     S("Single"),
-    M("Maried"),
+    M("Married"),
     D("Divorced"),
     W("Widow/Seperated"),
     U("Unknown");

@@ -6,12 +6,13 @@ import com.accion.consultation.models.dto.provider.ProviderDTO;
 import com.accion.consultation.models.dto.speciality.SpecialityDTO;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 @Data
 public class AppointmentDTO {
     private long id;
-    private ZonedDateTime dateTime;
+    private LocalDateTime dateTime;
     private SpecialityDTO speciality;
     private ProviderDTO provider;
     private PatientDTO patient;

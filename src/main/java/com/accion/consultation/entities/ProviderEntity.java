@@ -54,4 +54,7 @@ public class ProviderEntity extends UserEntity {
 
     @OneToMany(mappedBy = "provider", cascade = CascadeType.ALL)
     private List<AppointmentEntity> appointments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "provider", cascade = CascadeType.ALL)
+    private List<ScheduleEntity> schedule =  new ArrayList<>();
 }

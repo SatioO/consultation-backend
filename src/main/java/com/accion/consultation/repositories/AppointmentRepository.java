@@ -7,7 +7,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,5 +19,5 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
         @Param("endDate") LocalDateTime endDate);
 
     @Query(value= "SELECT * FROM appointment ap WHERE ap.provider_id = :providerId AND ap.date_time = :date", nativeQuery = true)
-    Optional<AppointmentEntity> findAppointmentSlot(@Param("providerId") long providerId, @Param("date") ZonedDateTime date);
+    Optional<AppointmentEntity> findAppointmentSlot(@Param("providerId") long providerId, @Param("date") LocalDateTime date);
 }

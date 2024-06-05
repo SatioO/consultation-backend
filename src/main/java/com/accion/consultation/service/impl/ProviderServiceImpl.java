@@ -17,10 +17,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.chrono.ChronoZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -52,19 +49,21 @@ public class ProviderServiceImpl implements ProviderService {
         ProviderEntity foundProvider = this.providerRepository.findById(providerId).orElseThrow(() -> new UserNotFoundException(providerId));
 
         LocalDateTime localDateTime = LocalDateTime.ofInstant(date, ZoneId.of(foundProvider.getTimezone()));
+        LocalDateTime currentDateTime = LocalDateTime.ofInstant(Instant.now(), ZoneId.of(foundProvider.getTimezone()));
 
-        //  Start of the day
+        //  Start and end of the day
         LocalDateTime startOfDay = localDateTime.truncatedTo(ChronoUnit.DAYS);
-        // End of the day
         LocalDateTime endOfDay = startOfDay.truncatedTo(ChronoUnit.DAYS).plusDays(1);
 
-        List<AppointmentSlotDTO> slots = this.generateSlots(startOfDay, foundProvider.getSlotInMinutes());
+        List<AppointmentSlotDTO> slots = this.generateSlots(localDateTime, foundProvider.getSlotInMinutes())
+            .stream()
+            .filter(slot -> slot.getStartDateTime().isAfter(currentDateTime)).toList();
 
         List<AppointmentEntity> appointments = appointmentRepository.findAppointmentsByProviderId(providerId, startOfDay, endOfDay);
 
         slots.forEach(slot -> {
             appointments.forEach(appointment -> {
-                if(appointment.getDateTime().isEqual(ChronoZonedDateTime.from(slot.getStartDateTime()))) {
+                if(appointment.getDateTime().isEqual(slot.getStartDateTime())) {
                     slot.setAvailable(false);
                 }
             });
@@ -129,20 +128,27 @@ public class ProviderServiceImpl implements ProviderService {
         });
     }
 
-    public List<AppointmentSlotDTO> generateSlots(LocalDateTime startDate, int gapInMinutes) {
+    public List<AppointmentSlotDTO> generateSlots(LocalDateTime date, int gapInMinutes) {
         List<AppointmentSlotDTO> timeSlots = new ArrayList<>();
 
         // Adjust startDateTime to the nearest previous interval
-        long minutes = startDate.getMinute();
+        long minutes = date.getMinute();
         long adjustment = minutes % gapInMinutes;
-        LocalDateTime adjustedStartTime = startDate.minusMinutes(adjustment).truncatedTo(ChronoUnit.MINUTES);
+        LocalDateTime adjustedStartTime = date.minusMinutes(adjustment).truncatedTo(ChronoUnit.MINUTES);
 
-        // End of the day
-        LocalDateTime endOfDay = adjustedStartTime.truncatedTo(ChronoUnit.DAYS).plusDays(1);
+        // Define desired start and end times for slots (9 AM and 6 PM)
+        LocalTime startTime = LocalTime.of(9, 0);
+        LocalTime endTime = LocalTime.of(18, 0); // 6 PM in 24-hour format
 
-        // Generate the slots based on the gap
+        // Truncate adjustedStartTime to today's date
+        adjustedStartTime = adjustedStartTime.toLocalDate().atTime(startTime);
+
+        // End of the day (considering 6 PM)
+        LocalDateTime endOfDay = adjustedStartTime.toLocalDate().atTime(endTime);
+
+        // Generate slots only between start and end times
         LocalDateTime nextSlot = adjustedStartTime;
-        while (nextSlot.isBefore(endOfDay)) {
+        while (nextSlot.isBefore(endOfDay) && nextSlot.toLocalTime().isBefore(endTime)) {
             AppointmentSlotDTO dto = new AppointmentSlotDTO();
             dto.setStartDateTime(nextSlot);
             dto.setEndDateTime(nextSlot.plusMinutes(gapInMinutes));
