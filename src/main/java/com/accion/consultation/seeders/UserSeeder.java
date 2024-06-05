@@ -4,8 +4,10 @@ import com.accion.consultation.models.AdministrativeSex;
 import com.accion.consultation.models.MaritalStatus;
 import com.accion.consultation.models.dto.NameDTO;
 import com.accion.consultation.models.dto.admin.CreateAdminRequestDTO;
+import com.accion.consultation.models.dto.patient.CreatePatientRequestDTO;
 import com.accion.consultation.models.dto.provider.CreateProviderRequestDTO;
 import com.accion.consultation.service.AdminService;
+import com.accion.consultation.service.PatientService;
 import com.accion.consultation.service.ProviderService;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -25,6 +27,7 @@ import java.util.Optional;
 public class UserSeeder implements CommandLineRunner {
     private final AdminService adminService;
     private final ProviderService providerService;
+    private final PatientService patientService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -33,6 +36,7 @@ public class UserSeeder implements CommandLineRunner {
         if (seed.isPresent()){
             this.seedAdmin();
             this.seedProvider();
+            this.seedPatient();
         }
     }
 
@@ -49,6 +53,34 @@ public class UserSeeder implements CommandLineRunner {
 
         this.adminService.createAdmin(createAdminRequestDTO);
 
+    }
+
+    private void seedPatient() {
+        System.out.println("seeding patient");
+        Instant now = Instant.now();
+        ZonedDateTime zonedDateTime = now.atZone(ZoneId.systemDefault());
+
+        CreatePatientRequestDTO patient1 = new CreatePatientRequestDTO();
+        patient1.setName(NameDTO.builder().givenName("John").familyName("Doe").build());
+        patient1.setEmail("john.doe@accionlabs.com");
+        patient1.setAdministrativeSex(AdministrativeSex.M);
+        patient1.setMaritalStatus(MaritalStatus.M);
+        patient1.setMrn("123456789");
+        patient1.setSsn("987-65-4321");
+        patient1.setDob(zonedDateTime.minusYears(32).toInstant());
+
+        this.patientService.createPatient(patient1);
+
+        CreatePatientRequestDTO patient2 = new CreatePatientRequestDTO();
+        patient2.setName(NameDTO.builder().givenName("Emily").familyName("Davis").build());
+        patient2.setEmail("emily.davis@accionlabs.com");
+        patient2.setAdministrativeSex(AdministrativeSex.F);
+        patient2.setMaritalStatus(MaritalStatus.S);
+        patient2.setMrn("456789012");
+        patient2.setSsn("345-67-8901");
+        patient2.setDob(zonedDateTime.minusYears(18).toInstant());
+
+        this.patientService.createPatient(patient2);
     }
 
     private void seedProvider() {
