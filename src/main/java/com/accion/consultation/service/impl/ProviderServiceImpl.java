@@ -18,7 +18,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.*;
-import java.time.chrono.ChronoZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +62,7 @@ public class ProviderServiceImpl implements ProviderService {
 
         slots.forEach(slot -> {
             appointments.forEach(appointment -> {
-                if(appointment.getDateTime().isEqual(slot.getStartDateTime())) {
+                if(appointment.getDateTime().isEqual(slot.getStartDateTime().atZone(ZoneId.of(foundProvider.getTimezone())))) {
                     slot.setAvailable(false);
                 }
             });

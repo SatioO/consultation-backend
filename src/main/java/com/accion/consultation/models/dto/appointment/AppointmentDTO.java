@@ -12,7 +12,7 @@ import java.time.ZonedDateTime;
 @Data
 public class AppointmentDTO {
     private long id;
-    private LocalDateTime dateTime;
+    private ZonedDateTime dateTime;
     private SpecialityDTO speciality;
     private ProviderDTO provider;
     private PatientDTO patient;
