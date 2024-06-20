@@ -3,10 +3,12 @@ package com.accion.consultation.service;
 import com.accion.consultation.models.dto.admin.AdminDTO;
 import com.accion.consultation.models.dto.admin.CreateAdminRequestDTO;
 import com.accion.consultation.models.dto.admin.UpdateAdminRequestDTO;
+import com.accion.consultation.models.dto.appointment.AppointmentDTO;
 import com.accion.consultation.models.dto.appointment.AppointmentSlotDTO;
 import com.accion.consultation.models.dto.provider.CreateProviderRequestDTO;
 import com.accion.consultation.models.dto.provider.ProviderDTO;
 import com.accion.consultation.models.dto.provider.UpdateProviderRequestDTO;
+import org.springframework.data.domain.Pageable;
 
 import java.time.Instant;
 import java.time.ZonedDateTime;
@@ -21,6 +23,8 @@ public interface ProviderService {
     Optional<ProviderDTO> findProviderById(long providerId);
 
     ProviderDTO createProvider(CreateProviderRequestDTO body);
+
+    List<AppointmentDTO> findAppointments(long providerId, Pageable page);
 
     ProviderDTO updateProvider(long providerId, UpdateProviderRequestDTO body);
 

@@ -1,21 +1,20 @@
 package com.accion.consultation.controllers;
 
 import com.accion.consultation.exceptions.UserNotFoundException;
+import com.accion.consultation.models.dto.appointment.AppointmentDTO;
 import com.accion.consultation.models.dto.appointment.AppointmentSlotDTO;
-import com.accion.consultation.models.dto.provider.ProviderDTO;
 import com.accion.consultation.models.dto.provider.CreateProviderRequestDTO;
+import com.accion.consultation.models.dto.provider.ProviderDTO;
 import com.accion.consultation.models.dto.provider.UpdateProviderRequestDTO;
 import com.accion.consultation.service.ProviderService;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.List;
 
 @RestController
@@ -39,6 +38,17 @@ public class ProviderController {
         @RequestParam(value = "date") Instant date) {
         List<AppointmentSlotDTO> availableSlots = providerService.getAvailableSlots(providerId, date);
         return ResponseEntity.ok().body(availableSlots);
+    }
+
+    @GetMapping("/{providerId}/appointments")
+    public ResponseEntity<List<AppointmentDTO>> getProviderAllAppointments(
+        @PathVariable("providerId") long providerId,
+        @RequestParam(value = "page", defaultValue = "0") int page,
+        @RequestParam(value = "size", defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        List<AppointmentDTO> appointments = providerService.findAppointments(providerId, pageable);
+        return ResponseEntity.ok().body(appointments);
     }
 
     @GetMapping("/{providerId}")
