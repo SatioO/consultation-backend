@@ -4,9 +4,11 @@ import com.accion.consultation.entities.*;
 import com.accion.consultation.exceptions.RoleNotFoundException;
 import com.accion.consultation.exceptions.UserNotFoundException;
 import com.accion.consultation.mappers.AddressMapper;
+import com.accion.consultation.mappers.AppointmentMapper;
 import com.accion.consultation.mappers.ProviderMapper;
 import com.accion.consultation.models.AdministrativeSex;
 import com.accion.consultation.models.UserStatus;
+import com.accion.consultation.models.dto.appointment.AppointmentDTO;
 import com.accion.consultation.models.dto.appointment.AppointmentSlotDTO;
 import com.accion.consultation.models.dto.provider.CreateProviderRequestDTO;
 import com.accion.consultation.models.dto.provider.ProviderDTO;
@@ -14,6 +16,8 @@ import com.accion.consultation.models.dto.provider.UpdateProviderRequestDTO;
 import com.accion.consultation.repositories.*;
 import com.accion.consultation.service.ProviderService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +38,7 @@ public class ProviderServiceImpl implements ProviderService {
     private final AddressMapper addressMapper;
     private final SpecialityRepository specialityRepository;
     private final AppointmentRepository appointmentRepository;
+    private final AppointmentMapper appointmentMapper;
 
     @Override
     public List<ProviderDTO> findProviders() {
@@ -58,7 +63,7 @@ public class ProviderServiceImpl implements ProviderService {
             .stream()
             .filter(slot -> slot.getStartDateTime().isAfter(currentDateTime)).toList();
 
-        List<AppointmentEntity> appointments = appointmentRepository.findAppointmentsByProviderId(providerId, startOfDay, endOfDay);
+        List<AppointmentEntity> appointments = appointmentRepository.findApptsByProviderId(providerId, startOfDay, endOfDay);
 
         slots.forEach(slot -> {
             appointments.forEach(appointment -> {
@@ -69,6 +74,12 @@ public class ProviderServiceImpl implements ProviderService {
         });
 
         return slots;
+    }
+
+    @Override
+    public List<AppointmentDTO> findAppointments(long providerId, Pageable page) {
+        Page<AppointmentEntity> appointments = appointmentRepository.findAppointmentByProviderUserId(providerId, page);
+        return appointments.get().map(appointmentMapper::toModel).toList();
     }
 
     @Override

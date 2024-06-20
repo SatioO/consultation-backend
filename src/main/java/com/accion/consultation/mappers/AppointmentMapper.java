@@ -27,6 +27,6 @@ public class AppointmentMapper implements EntityMapper<AppointmentEntity, Appoin
         model.setPatient(patientMapper.toModel(entity.getPatient()));
         model.setStatus(entity.getStatus());
 
-        return null;
+        return model;
     }
 }
