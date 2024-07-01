@@ -5,10 +5,9 @@ import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.auth.Credentials;
 import com.google.auth.oauth2.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
 
 import java.awt.*;
 import java.io.FileNotFoundException;
@@ -22,7 +21,6 @@ import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @RestController
 @RequestMapping(path = "/api/v1/consultation")
@@ -32,6 +30,18 @@ public class ConsultationController {
         .singletonList("https://www.googleapis.com/auth/meetings.space.created");
     private static final String CREDENTIALS_FILE_PATH = "/machine-8d649-5c6acd4f298d.json";
     private static final String USER = "default";
+    private final WebClient webClient;
+
+    public ConsultationController(WebClient webClient) {
+        this.webClient = webClient;
+    }
+
+    @GetMapping
+    public ResponseEntity<Void> getPosts() {
+        Flux<String> response = webClient.get().uri("/posts").retrieve().bodyToFlux(String.class);
+        response.subscribe(result -> System.out.println(result));
+        return ResponseEntity.ok().body(null);
+    }
 
     @PostMapping(path = "/session")
     public ResponseEntity<Credentials> createSession(@RequestBody CreateSessionRequestDTO body) throws IOException {

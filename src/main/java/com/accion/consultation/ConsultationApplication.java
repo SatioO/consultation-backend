@@ -8,6 +8,4 @@ public class ConsultationApplication {
     public static void main(String[] args) throws InterruptedException {
         SpringApplication.run(ConsultationApplication.class, args);
     }
-
-
 }
