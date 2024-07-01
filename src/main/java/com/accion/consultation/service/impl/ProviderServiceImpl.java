@@ -5,11 +5,13 @@ import com.accion.consultation.exceptions.RoleNotFoundException;
 import com.accion.consultation.exceptions.UserNotFoundException;
 import com.accion.consultation.mappers.AddressMapper;
 import com.accion.consultation.mappers.AppointmentMapper;
+import com.accion.consultation.mappers.PatientMapper;
 import com.accion.consultation.mappers.ProviderMapper;
 import com.accion.consultation.models.AdministrativeSex;
 import com.accion.consultation.models.UserStatus;
 import com.accion.consultation.models.dto.appointment.AppointmentDTO;
 import com.accion.consultation.models.dto.appointment.AppointmentSlotDTO;
+import com.accion.consultation.models.dto.patient.PatientDTO;
 import com.accion.consultation.models.dto.provider.CreateProviderRequestDTO;
 import com.accion.consultation.models.dto.provider.ProviderDTO;
 import com.accion.consultation.models.dto.provider.UpdateProviderRequestDTO;
@@ -39,6 +41,7 @@ public class ProviderServiceImpl implements ProviderService {
     private final SpecialityRepository specialityRepository;
     private final AppointmentRepository appointmentRepository;
     private final AppointmentMapper appointmentMapper;
+    private final PatientMapper patientMapper;
 
     @Override
     public List<ProviderDTO> findProviders() {
@@ -63,7 +66,7 @@ public class ProviderServiceImpl implements ProviderService {
             .stream()
             .filter(slot -> slot.getStartDateTime().isAfter(currentDateTime)).toList();
 
-        List<AppointmentEntity> appointments = appointmentRepository.findApptsByProviderId(providerId, startOfDay, endOfDay);
+        List<AppointmentEntity> appointments = appointmentRepository.findAppointmentsByProviderId(providerId, startOfDay, endOfDay);
 
         slots.forEach(slot -> {
             appointments.forEach(appointment -> {
@@ -85,6 +88,16 @@ public class ProviderServiceImpl implements ProviderService {
     @Override
     public Optional<ProviderDTO> findProviderById(long providerId) {
         return this.providerRepository.findById(providerId).map(providerMapper::toModel);
+    }
+
+    @Override
+    public List<PatientDTO> findPatients(long providerId, Pageable pageable) {
+        ProviderEntity provider = providerRepository.findById(providerId).orElseThrow(() -> new UserNotFoundException(providerId));
+        List<PatientEntity> patients = appointmentRepository.findAllPatients(provider, pageable);
+
+        return patients.stream()
+            .map(patientMapper::toModel)
+            .toList();
     }
 
     @Override

@@ -3,11 +3,13 @@ package com.accion.consultation.controllers;
 import com.accion.consultation.exceptions.UserNotFoundException;
 import com.accion.consultation.models.dto.appointment.AppointmentDTO;
 import com.accion.consultation.models.dto.appointment.AppointmentSlotDTO;
+import com.accion.consultation.models.dto.patient.PatientDTO;
 import com.accion.consultation.models.dto.provider.CreateProviderRequestDTO;
 import com.accion.consultation.models.dto.provider.ProviderDTO;
 import com.accion.consultation.models.dto.provider.UpdateProviderRequestDTO;
 import com.accion.consultation.service.ProviderService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -41,14 +43,21 @@ public class ProviderController {
     }
 
     @GetMapping("/{providerId}/appointments")
-    public ResponseEntity<List<AppointmentDTO>> getProviderAllAppointments(
+    public ResponseEntity<List<AppointmentDTO>> getProviderAppointments(
         @PathVariable("providerId") long providerId,
-        @RequestParam(value = "page", defaultValue = "0") int page,
-        @RequestParam(value = "size", defaultValue = "10") int size
+        Pageable pageable
     ) {
-        Pageable pageable = PageRequest.of(page, size);
         List<AppointmentDTO> appointments = providerService.findAppointments(providerId, pageable);
         return ResponseEntity.ok().body(appointments);
+    }
+
+    @GetMapping("/{providerId}/patients")
+    public ResponseEntity<List<PatientDTO>> getPatients(
+        @PathVariable("providerId") long providerId,
+        Pageable pageable
+    ) {
+        List<PatientDTO> patients = providerService.findPatients(providerId, pageable);
+        return ResponseEntity.ok().body(patients);
     }
 
     @GetMapping("/{providerId}")

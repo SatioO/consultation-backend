@@ -35,3 +35,8 @@ out/
 
 ### VS Code ###
 .vscode/
+
+/src/main/resources/credentials.json
+/src/main/resources/machine-8d649-5c6acd4f298d.json
+/src/main/resources/sa-2.json
+/src/main/resources/service-account.json
