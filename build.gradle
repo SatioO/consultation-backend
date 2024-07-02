@@ -1,8 +1,17 @@
+
+buildscript {
+    dependencies {
+        classpath 'org.flywaydb:flyway-mysql:10.15.0'
+    }
+}
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.2'
 	id 'io.spring.dependency-management' version '1.1.4'
+    id "org.flywaydb.flyway" version "10.15.0"
 }
+
 
 group = 'com.accion'
 version = '0.0.1-SNAPSHOT'
@@ -30,6 +39,8 @@ dependencies {
 	implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
     implementation "com.twilio.sdk:twilio:10.1.0"
     implementation "org.springframework.boot:spring-boot-starter-webflux"
+    implementation 'org.flywaydb:flyway-core:10.15.0'
+    implementation 'org.flywaydb:flyway-mysql:10.15.0'
 
     implementation 'com.google.cloud:google-cloud-meet:0.3.0'
     implementation 'com.google.auth:google-auth-library-oauth2-http:1.19.0'
@@ -45,3 +56,4 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
