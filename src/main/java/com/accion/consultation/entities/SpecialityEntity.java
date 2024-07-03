@@ -26,6 +26,7 @@ public class SpecialityEntity {
     private String description;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.ORDINAL)
     private SpecialityCategory category;
 
     @ManyToMany(mappedBy = "specialities")

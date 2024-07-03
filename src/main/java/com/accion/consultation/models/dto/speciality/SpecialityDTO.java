@@ -8,5 +8,5 @@ public class SpecialityDTO {
     private Long id;
     private String name;
     private String description;
-    private SpecialityCategory category;
+    private String category;
 }

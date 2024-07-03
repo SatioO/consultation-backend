@@ -3,6 +3,7 @@ package com.accion.consultation.controllers;
 import com.accion.consultation.entities.ProviderEntity;
 import com.accion.consultation.exceptions.SpecialityNotFound;
 import com.accion.consultation.models.SpecialityCategory;
+import com.accion.consultation.models.dto.provider.GetProviderDTO;
 import com.accion.consultation.models.dto.provider.ProviderDTO;
 import com.accion.consultation.models.dto.speciality.CreateSpecialityRequestDTO;
 import com.accion.consultation.models.dto.speciality.SpecialityDTO;
@@ -34,8 +35,8 @@ public class SpecialityController {
     }
 
     @GetMapping("/{specialityId}/providers")
-    public ResponseEntity<List<ProviderDTO>> findProviders(@PathVariable long specialityId) {
-        List<ProviderDTO> foundProviders = specialityService.findProviders(specialityId);
+    public ResponseEntity<List<GetProviderDTO>> findProviders(@PathVariable long specialityId) {
+        List<GetProviderDTO> foundProviders = specialityService.findProviders(specialityId);
         return ResponseEntity.status(HttpStatus.OK).body(foundProviders);
     }
 

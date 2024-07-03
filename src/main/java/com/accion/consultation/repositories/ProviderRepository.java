@@ -1,6 +1,7 @@
 package com.accion.consultation.repositories;
 
 import com.accion.consultation.entities.ProviderEntity;
+import com.accion.consultation.models.dto.provider.GetProviderDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,6 +13,12 @@ import java.util.List;
 public interface ProviderRepository extends JpaRepository<ProviderEntity, Long> {
     List<ProviderEntity> findByRoles_Name(String role);
 
-    @Query(value = "SELECT * FROM provider p INNER JOIN user u ON p.user_id = u.user_id JOIN provider_speciality ps ON p.user_id = ps.user_id JOIN speciality s ON ps.speciality_id = s.id WHERE s.id = :specialityId", nativeQuery = true)
-    List<ProviderEntity> findProvidersBySpeciality(@Param("specialityId") Long specialityId);
+    @Query("SELECT NEW com.accion.consultation.models.dto.provider.GetProviderDTO(" +
+            "p.userId, " +
+            "p.username, " +
+            "NEW com.accion.consultation.models.dto.NameDTO(p.name.familyName, p.name.givenName,p.name.middleName)," +
+            "s.name" +
+        ") FROM ProviderEntity p JOIN p.specialities s WHERE s.id = :specialityId")
+    List<GetProviderDTO> findProvidersBySpeciality(@Param("specialityId") Long specialityId);
 }
+
