@@ -1,6 +1,7 @@
 package com.accion.consultation.service;
 
 import com.accion.consultation.models.SpecialityCategory;
+import com.accion.consultation.models.dto.provider.GetProviderDTO;
 import com.accion.consultation.models.dto.provider.ProviderDTO;
 import com.accion.consultation.models.dto.speciality.SpecialityDTO;
 import com.accion.consultation.models.dto.speciality.CreateSpecialityRequestDTO;
@@ -20,5 +21,5 @@ public interface SpecialityService {
 
     void deleteSpeciality(long specialityId);
 
-    List<ProviderDTO> findProviders(long specialityId);
+    List<GetProviderDTO> findProviders(long specialityId);
 }

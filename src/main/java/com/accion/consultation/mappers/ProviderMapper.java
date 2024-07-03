@@ -7,6 +7,7 @@ import com.accion.consultation.entities.SpecialityEntity;
 import com.accion.consultation.models.UserStatus;
 import com.accion.consultation.models.dto.NameDTO;
 import com.accion.consultation.models.dto.provider.CreateProviderRequestDTO;
+import com.accion.consultation.models.dto.provider.GetProviderDTO;
 import com.accion.consultation.models.dto.provider.ProviderDTO;
 import com.accion.consultation.models.dto.provider.UpdateProviderRequestDTO;
 import lombok.AllArgsConstructor;
