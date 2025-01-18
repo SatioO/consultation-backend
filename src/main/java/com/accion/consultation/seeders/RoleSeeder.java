@@ -20,7 +20,6 @@ public class RoleSeeder implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         Optional<Boolean> seed = Arrays.stream(args).map(arg -> arg.equals("seed")).findFirst();
-
         if (seed.isPresent()){
             System.out.println("seeding roles");
 
@@ -31,6 +30,5 @@ public class RoleSeeder implements CommandLineRunner {
                 roleService.createRole(createRoleRequestDTO);
             });
         }
-
     }
 }

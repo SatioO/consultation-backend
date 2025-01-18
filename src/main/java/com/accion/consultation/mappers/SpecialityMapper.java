@@ -26,7 +26,7 @@ public class SpecialityMapper implements EntityMapper<SpecialityEntity, Speciali
         model.setId(entity.getId());
         model.setName(entity.getName());
         model.setDescription(entity.getDescription());
-//        model.setCategory(entity.getCategory().getDescription());
+        model.setCategory(entity.getCategory().getDescription());
 
         return model;
     }
@@ -35,7 +35,7 @@ public class SpecialityMapper implements EntityMapper<SpecialityEntity, Speciali
         SpecialityEntity entity = new SpecialityEntity();
         entity.setName(model.getName());
         entity.setDescription(model.getDescription());
-//        entity.setCategory(model.getCategory());
+        entity.setCategory(model.getCategory());
 
         return entity;
     }
@@ -43,7 +43,7 @@ public class SpecialityMapper implements EntityMapper<SpecialityEntity, Speciali
     public SpecialityEntity toUpdateSpecialityEntity(SpecialityEntity entity, UpdateSpecialityRequestDTO model) {
         entity.setName(model.getName());
         entity.setDescription(model.getDescription());
-//        entity.setCategory(model.getCategory());
+        entity.setCategory(model.getCategory());
 
         return entity;
     }

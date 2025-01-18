@@ -2,7 +2,6 @@ package com.accion.consultation.controllers;
 
 import com.accion.consultation.models.dto.appointment.AppointmentDTO;
 import com.accion.consultation.models.dto.appointment.CreateAppointmentOpenRequestDTO;
-import com.accion.consultation.models.dto.appointment.CreateAppointmentRequestDTO;
 import com.accion.consultation.service.AppointmentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
