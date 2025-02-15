@@ -87,6 +87,8 @@ public class UserSeeder implements CommandLineRunner {
         CreateProviderRequestDTO provider1 = new CreateProviderRequestDTO();
         provider1.setName(NameDTO.builder().givenName("Ted").familyName("Smith").build());
         provider1.setEmail("ted.smith@accionlabs.com");
+        provider1.setPhotoUrl("https://www.shutterstock.com/image-photo/profile-picture-smiling-young-caucasian-600nw-1954278664.jpg");
+        provider1.setBio("A board-certified psychiatrist with 20+ years of experience specializing in the diagnosis, treatment, and management of mental health disorders.");
         provider1.setAdministrativeSex(AdministrativeSex.M);
         provider1.setDob(zonedDateTime.minusYears(42).toInstant());
         provider1.setMaritalStatus(MaritalStatus.M);
@@ -100,6 +102,8 @@ public class UserSeeder implements CommandLineRunner {
         CreateProviderRequestDTO provider2 = new CreateProviderRequestDTO();
         provider2.setName(NameDTO.builder().givenName("James").familyName("Mitchell").build());
         provider2.setEmail("james.mitchell@accionlabs.com");
+        provider2.setPhotoUrl("https://img.freepik.com/free-photo/portrait-experienced-professional-therapist-with-stethoscope-looking-camera_1098-19305.jpg");
+        provider2.setBio("A licensed psychologist with 10 years of experience specializing in the assessment, diagnosis, and treatment of various mental health conditions. Passionate about helping individuals overcome life’s challenges, Dr. Mitchell provides evidence-based therapy t");
         provider2.setAdministrativeSex(AdministrativeSex.M);
         provider2.setDob(zonedDateTime.minusYears(50).toInstant());
         provider2.setMaritalStatus(MaritalStatus.M);
@@ -113,6 +117,8 @@ public class UserSeeder implements CommandLineRunner {
         CreateProviderRequestDTO provider3 = new CreateProviderRequestDTO();
         provider3.setName(NameDTO.builder().givenName("Michael").familyName("Thompson").build());
         provider3.setEmail("michael.thompson@accionlabs.com");
+        provider3.setPhotoUrl("https://img.freepik.com/free-photo/doctor-offering-medical-teleconsultation_23-2149329007.jpg");
+        provider3.setBio("A board-certified cardiologist dedicated to providing exceptional cardiovascular care with a patient-centered approach. With 25 years of experience in diagnosing and treating heart-related conditions, Dr. Thompson specializes in managing hypertension, cor");
         provider3.setAdministrativeSex(AdministrativeSex.M);
         provider3.setDob(zonedDateTime.minusYears(55).toInstant());
         provider3.setMaritalStatus(MaritalStatus.D);
@@ -126,6 +132,8 @@ public class UserSeeder implements CommandLineRunner {
         CreateProviderRequestDTO provider4 = new CreateProviderRequestDTO();
         provider4.setName(NameDTO.builder().givenName("Ava").familyName("Johnson").build());
         provider4.setEmail("ava.johnson@accionlabs.com");
+        provider4.setPhotoUrl("https://media.istockphoto.com/id/1330046035/photo/headshot-portrait-of-smiling-female-doctor-in-hospital.jpg?s=612x612&w=0&k=20&c=fsNQPbmFIxoKA-PXl3G745zj7Cvr_cFIGsYknSbz_Tg=");
+        provider4.setBio("A board-certified dermatologist specializing in medical, cosmetic, and surgical dermatology. With 7+ years of experience, Dr. Ava is dedicated to providing expert skin care for patients of all ages, treating a wide range of conditions including acne, ecze");
         provider4.setAdministrativeSex(AdministrativeSex.F);
         provider4.setDob(zonedDateTime.minusYears(40).toInstant());
         provider4.setMaritalStatus(MaritalStatus.M);
@@ -139,6 +147,8 @@ public class UserSeeder implements CommandLineRunner {
         CreateProviderRequestDTO provider5 = new CreateProviderRequestDTO();
         provider5.setName(NameDTO.builder().givenName("Ethan").familyName("Davis").build());
         provider5.setEmail("ethan.davis@accionlabs.com");
+        provider5.setPhotoUrl("https://img.freepik.com/premium-photo/portrait-obstetrician_53876-52389.jpg");
+        provider5.setBio("A Highly skilled psychiatrist with a deep commitment to helping individuals navigate their mental health journey. With 15 years of experience, he specializes in diagnosing and treating a wide range of psychiatric conditions, including depression, anxiety, m");
         provider5.setAdministrativeSex(AdministrativeSex.M);
         provider5.setDob(zonedDateTime.minusYears(38).toInstant());
         provider5.setMaritalStatus(MaritalStatus.S);

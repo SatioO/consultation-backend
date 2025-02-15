@@ -46,31 +46,37 @@ public class AppointmentServiceImpl implements AppointmentService {
         ProviderEntity foundProvider = providerRepository.findById(body.getProviderId()).orElseThrow(() -> new UserNotFoundException(body.getProviderId()));
 
         LocalDateTime startDate = body.getDateTime().toLocalDateTime();
+        System.out.println(startDate);
         long minutes = startDate.getMinute();
         long adjustment = minutes % foundProvider.getSlotInMinutes();
         LocalDateTime adjustedStartDate = startDate.minusMinutes(adjustment).truncatedTo(ChronoUnit.MINUTES);
+         Optional<AppointmentEntity> appointmentSlot = appointmentRepository.findAppointmentSlot(foundProvider, adjustedStartDate.atZone(ZoneId.of("UTC")));
 
-        Optional<AppointmentEntity> appointmentSlot = appointmentRepository.findAppointmentSlot(foundProvider.getUserId(), adjustedStartDate);
         if(appointmentSlot.isPresent()) {
             throw new SlotUnavailableException();
         }
 
-        PatientEntity patient = null;
         if(body.getPatientId() == 0) {
-            patient = patientMapper.toEntity(patientService.createPatient(body.getPatientDetails()));
-        } else {
-            patient = patientRepository.findById(body.getPatientId()).orElseThrow(() -> new UserNotFoundException(body.getPatientId()));
-        }
-
-        AppointmentEntity appointment = AppointmentEntity.builder()
+            PatientEntity patient = patientMapper.toEntity(patientService.createPatient(body.getPatientDetails()));
+            AppointmentEntity appointment = AppointmentEntity.builder()
             .dateTime(body.getDateTime())
             .provider(foundProvider)
             .speciality(foundSpeciality)
             .patient(patient)
             .status(AppointmentStatus.PENDING)
             .build();
-
-        return appointmentMapper.toModel(appointmentRepository.save(appointment));
+            return appointmentMapper.toModel(appointmentRepository.save(appointment));
+        } else {
+            PatientEntity patient = patientRepository.findById(body.getPatientId()).orElseThrow(() -> new UserNotFoundException(body.getPatientId()));
+            AppointmentEntity appointment = AppointmentEntity.builder()
+                    .dateTime(body.getDateTime())
+                    .provider(foundProvider)
+                    .speciality(foundSpeciality)
+                    .patient(patient)
+                    .status(AppointmentStatus.PENDING)
+                    .build();
+            return appointmentMapper.toModel(appointmentRepository.save(appointment));
+        }
     }
 
     @Override

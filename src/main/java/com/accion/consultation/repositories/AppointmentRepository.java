@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,8 +26,10 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
     @Query(value = "SELECT DISTINCT ap.patient from AppointmentEntity ap WHERE ap.provider = :providerId")
     List<PatientEntity> findAllPatients(@Param("providerId") ProviderEntity providerId, Pageable pageable);
 
+    Page<AppointmentEntity> findAppointmentByPatientUserId(@Param("patientId") long patientId, Pageable pageable);
+
     Page<AppointmentEntity> findAppointmentByProviderUserId(@Param("providerId") long providerId, Pageable pageable);
 
-    @Query(value= "SELECT * FROM appointment ap WHERE ap.provider_id = :providerId AND ap.date_time = :date", nativeQuery = true)
-    Optional<AppointmentEntity> findAppointmentSlot(@Param("providerId") long providerId, @Param("date") LocalDateTime date);
+    @Query(value= "SELECT ap FROM AppointmentEntity ap WHERE ap.provider = :providerId AND ap.dateTime = :date")
+    Optional<AppointmentEntity> findAppointmentSlot(@Param("providerId") ProviderEntity providerId, @Param("date") ZonedDateTime date);
 }

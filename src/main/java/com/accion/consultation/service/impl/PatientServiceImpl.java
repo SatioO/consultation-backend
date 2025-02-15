@@ -1,21 +1,27 @@
 package com.accion.consultation.service.impl;
 
+import com.accion.consultation.entities.AppointmentEntity;
 import com.accion.consultation.entities.PatientEntity;
 import com.accion.consultation.entities.UserAddressEntity;
 import com.accion.consultation.exceptions.RoleNotFoundException;
 import com.accion.consultation.exceptions.UserNotFoundException;
 import com.accion.consultation.mappers.AddressMapper;
+import com.accion.consultation.mappers.AppointmentMapper;
 import com.accion.consultation.mappers.PatientMapper;
 import com.accion.consultation.models.AdministrativeSex;
 import com.accion.consultation.models.UserStatus;
+import com.accion.consultation.models.dto.appointment.AppointmentDTO;
 import com.accion.consultation.models.dto.patient.CreatePatientRequestDTO;
 import com.accion.consultation.models.dto.patient.PatientDTO;
 import com.accion.consultation.models.dto.patient.UpdatePatientRequestDTO;
+import com.accion.consultation.repositories.AppointmentRepository;
 import com.accion.consultation.repositories.PatientRepository;
 import com.accion.consultation.repositories.RoleRepository;
 import com.accion.consultation.repositories.UserAddressRepository;
 import com.accion.consultation.service.PatientService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,16 +36,26 @@ import java.util.stream.Collectors;
 public class PatientServiceImpl implements PatientService {
     private final PatientRepository patientRepository;
     private final UserAddressRepository userAddressRepository;
+    private final AppointmentRepository appointmentRepository;
     private final RoleRepository roleRepository;
     private final PatientMapper patientMapper;
     private final AddressMapper addressMapper;
+    private final AppointmentMapper appointmentMapper;
 
-    public PatientServiceImpl(PatientRepository patientRepository, UserAddressRepository userAddressRepository, RoleRepository roleRepository, PatientMapper patientMapper, AddressMapper addressMapper) {
+    public PatientServiceImpl(PatientRepository patientRepository, UserAddressRepository userAddressRepository, AppointmentRepository appointmentRepository, RoleRepository roleRepository, PatientMapper patientMapper, AddressMapper addressMapper, AppointmentMapper appointmentMapper) {
         this.patientRepository = patientRepository;
         this.userAddressRepository = userAddressRepository;
+        this.appointmentRepository = appointmentRepository;
         this.roleRepository = roleRepository;
         this.patientMapper = patientMapper;
         this.addressMapper = addressMapper;
+        this.appointmentMapper = appointmentMapper;
+    }
+
+    @Override
+    public List<AppointmentDTO> findAppointments(long providerId, Pageable page) {
+        Page<AppointmentEntity> appointments = appointmentRepository.findAppointmentByPatientUserId(providerId, page);
+        return appointments.get().map(appointmentMapper::toModel).toList();
     }
 
     public List<PatientDTO> findPatients() {

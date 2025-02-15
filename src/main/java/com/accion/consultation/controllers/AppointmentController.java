@@ -23,7 +23,7 @@ public class AppointmentController {
     @PostMapping("/appointments")
     public ResponseEntity<AppointmentDTO> createAppointment(@RequestBody CreateAppointmentOpenRequestDTO body) {
         AppointmentDTO appointment = appointmentService.createAppointment(body);
-        return ResponseEntity.status(HttpStatus.CREATED).body(null);
+        return ResponseEntity.status(HttpStatus.CREATED).body(appointment);
     }
 
     @DeleteMapping("/appointments/{appointmentId}")

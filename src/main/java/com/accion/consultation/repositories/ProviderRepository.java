@@ -17,7 +17,9 @@ public interface ProviderRepository extends JpaRepository<ProviderEntity, Long> 
             "p.userId, " +
             "p.username, " +
             "NEW com.accion.consultation.models.dto.NameDTO(p.name.givenName, p.name.middleName, p.name.familyName)," +
-            "s.name" +
+            "s.name, " +
+            "p.bio, " +
+            "p.photoUrl" +
         ") FROM ProviderEntity p JOIN p.specialities s WHERE s.id = :specialityId")
     List<GetProviderDTO> findProvidersBySpeciality(@Param("specialityId") Long specialityId);
 }

@@ -1,11 +1,13 @@
 package com.accion.consultation.controllers;
 
 import com.accion.consultation.exceptions.UserNotFoundException;
+import com.accion.consultation.models.dto.appointment.AppointmentDTO;
 import com.accion.consultation.models.dto.patient.CreatePatientRequestDTO;
 import com.accion.consultation.models.dto.patient.PatientDTO;
 import com.accion.consultation.models.dto.patient.UpdatePatientRequestDTO;
 import com.accion.consultation.service.PatientService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,15 @@ public class PatientController {
 
     public PatientController(PatientService patientService) {
         this.patientService = patientService;
+    }
+
+    @GetMapping("/{patientId}/appointments")
+    public ResponseEntity<List<AppointmentDTO>> getProviderAppointments(
+            @PathVariable("patientId") long patientId,
+            Pageable pageable
+    ) {
+        List<AppointmentDTO> appointments = patientService.findAppointments(patientId, pageable);
+        return ResponseEntity.ok().body(appointments);
     }
 
     @GetMapping
