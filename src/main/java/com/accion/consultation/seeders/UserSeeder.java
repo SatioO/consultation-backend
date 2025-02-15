@@ -65,8 +65,6 @@ public class UserSeeder implements CommandLineRunner {
         patient1.setEmail("john.doe@accionlabs.com");
         patient1.setAdministrativeSex(AdministrativeSex.M);
         patient1.setMaritalStatus(MaritalStatus.M);
-        patient1.setMrn("123456789");
-        patient1.setSsn("987-65-4321");
         patient1.setDob(zonedDateTime.minusYears(32).toInstant());
 
         this.patientService.createPatient(patient1);
@@ -76,8 +74,6 @@ public class UserSeeder implements CommandLineRunner {
         patient2.setEmail("emily.davis@accionlabs.com");
         patient2.setAdministrativeSex(AdministrativeSex.F);
         patient2.setMaritalStatus(MaritalStatus.S);
-        patient2.setMrn("456789012");
-        patient2.setSsn("345-67-8901");
         patient2.setDob(zonedDateTime.minusYears(18).toInstant());
 
         this.patientService.createPatient(patient2);

@@ -12,8 +12,7 @@ import java.util.List;
 
 @Data
 public class CreatePatientRequestDTO {
-    private String mrn;
-    private String ssn;
+    private String password;
     private NameDTO name;
     private String email;
     private Instant dob;

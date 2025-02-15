@@ -34,7 +34,7 @@ public class ProviderController {
         return ResponseEntity.status(HttpStatus.OK).body(foundProviders);
     }
 
-    @GetMapping("{providerId}/slots")
+    @GetMapping("/{providerId}/slots")
     public ResponseEntity<List<AppointmentSlotDTO>> getAvailableSlots(
         @PathVariable("providerId") Long providerId,
         @RequestParam(value = "date") Instant date) {

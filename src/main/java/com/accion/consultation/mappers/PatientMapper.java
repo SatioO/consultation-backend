@@ -33,8 +33,6 @@ public class PatientMapper implements EntityMapper<PatientEntity, PatientDTO> {
         entity.setName(personName);
         entity.setEmail(model.getEmail());
         entity.setDob(model.getDob());
-        entity.setMrn(model.getMrn());
-        entity.setSsn(model.getSsn());
         entity.setLicenseNumber(model.getLicenseNumber());
         entity.setMaritalStatus(model.getMaritalStatus());
         entity.setAdministrativeSex(model.getAdministrativeSex());
@@ -63,8 +61,6 @@ public class PatientMapper implements EntityMapper<PatientEntity, PatientDTO> {
         model.setUsername(entity.getEmail());
         model.setEmail(entity.getEmail());
         model.setDob(entity.getDob());
-        model.setMrn(entity.getMrn());
-        model.setSsn(entity.getSsn());
         model.setLicenseNumber(entity.getLicenseNumber());
         model.setMaritalStatus(entity.getMaritalStatus());
         model.setAdministrativeSex(entity.getAdministrativeSex());
@@ -94,8 +90,6 @@ public class PatientMapper implements EntityMapper<PatientEntity, PatientDTO> {
         entity.setName(personName);
         entity.setEmail(model.getEmail());
         entity.setDob(model.getDob());
-        entity.setMrn(model.getMrn());
-        entity.setSsn(model.getSsn());
         entity.setLicenseNumber(model.getLicenseNumber());
         entity.setMaritalStatus(model.getMaritalStatus());
         entity.setAdministrativeSex(model.getAdministrativeSex());
@@ -113,8 +107,6 @@ public class PatientMapper implements EntityMapper<PatientEntity, PatientDTO> {
         entity.setName(personName);
         entity.setEmail(model.getEmail());
         entity.setDob(model.getDob());
-        entity.setMrn(model.getMrn());
-        entity.setSsn(model.getSsn());
         entity.setLicenseNumber(model.getLicenseNumber());
         entity.setMaritalStatus(model.getMaritalStatus());
         entity.setAdministrativeSex(model.getAdministrativeSex());

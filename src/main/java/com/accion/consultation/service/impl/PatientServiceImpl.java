@@ -56,7 +56,7 @@ public class PatientServiceImpl implements PatientService {
     public PatientDTO createPatient(@RequestBody CreatePatientRequestDTO body) {
         return roleRepository.findByName(AdministrativeSex.Role.PATIENT.getDescription()).map(role -> {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            String encryptedPassword = encoder.encode("helloworld");
+            String encryptedPassword = encoder.encode(body.getPassword());
 
             PatientEntity patient = patientMapper.toCreatePatientEntity(body);
             patient.setPassword(encryptedPassword);

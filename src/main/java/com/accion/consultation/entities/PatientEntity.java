@@ -13,12 +13,6 @@ import java.util.List;
 @Table(name = "patient")
 @Data
 public class PatientEntity extends UserEntity  {
-    @Column(nullable = false)
-    private String mrn;
-
-    @Column(nullable = false)
-    private String ssn;
-
     @Column
     private String licenseNumber;
 
