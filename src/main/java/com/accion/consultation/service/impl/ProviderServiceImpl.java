@@ -128,6 +128,16 @@ public class ProviderServiceImpl implements ProviderService {
     }
 
     @Override
+    public void toggleAcceptingNewPatientFlag(long providerId, boolean newStatus) {
+        providerRepository.findById(providerId)
+                .map(provider -> {
+                    provider.setAcceptingNewPatients(newStatus);
+                    return this.providerRepository.save(provider);
+                })
+                .orElseThrow(() -> new UserNotFoundException(providerId));
+    }
+
+    @Override
     public ProviderDTO updateProvider(long providerId, UpdateProviderRequestDTO body) {
         return providerRepository.findById(providerId)
                 .map(provider -> this.providerRepository.save(this.providerMapper.toUpdateProviderEntity(provider, body)))

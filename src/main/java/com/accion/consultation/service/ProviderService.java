@@ -28,6 +28,8 @@ public interface ProviderService {
 
     ProviderDTO createProvider(CreateProviderRequestDTO body);
 
+    void toggleAcceptingNewPatientFlag(long providerId, boolean status);
+
     List<AppointmentDTO> findAppointments(long providerId, Pageable page);
 
     ProviderDTO updateProvider(long providerId, UpdateProviderRequestDTO body);

@@ -73,6 +73,12 @@ public class ProviderController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdProvider);
     }
 
+    @PatchMapping("/{providerId}/day-off")
+    public ResponseEntity<Void> toggleAcceptingNewPatientFlag(@PathVariable long providerId, @RequestParam("status") boolean status) {
+        providerService.toggleAcceptingNewPatientFlag(providerId, status);
+        return null;
+    }
+
     @PutMapping("/{providerId}")
     public ResponseEntity<ProviderDTO> updateProvider(@PathVariable long providerId, @RequestBody @Valid UpdateProviderRequestDTO body) {
         ProviderDTO updatedProvider = providerService.updateProvider(providerId, body);

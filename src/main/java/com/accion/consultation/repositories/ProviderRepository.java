@@ -20,7 +20,7 @@ public interface ProviderRepository extends JpaRepository<ProviderEntity, Long> 
             "s.name, " +
             "p.bio, " +
             "p.photoUrl" +
-        ") FROM ProviderEntity p JOIN p.specialities s WHERE s.id = :specialityId")
+        ") FROM ProviderEntity p JOIN p.specialities s WHERE s.id = :specialityId AND p.acceptingNewPatients = true")
     List<GetProviderDTO> findProvidersBySpeciality(@Param("specialityId") Long specialityId);
 }
 
